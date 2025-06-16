@@ -191,16 +191,7 @@ extern (C) ulong main() @safe {
 
 	COM.init();
 	VGA.init();
-	import system.loader.config : loadSystemConfig, SystemConfig;
 
-	SystemConfig config;
-	try {
-		config = loadSystemConfig();
-		outputBoth("System hostname: ", config.hostname);
-		outputBoth("Boot snaps: ", config.bootSnaps);
-	} catch (Throwable e) {
-		outputBoth("Failed to load system config: ", e.msg);
-	}
 	PIT.init();
 
 	GDT.init();

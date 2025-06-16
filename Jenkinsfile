@@ -11,6 +11,7 @@ pipeline {
 					sh '''
 					rm -rf build || true
 					mkdir -p build
+					ln -s /usr build/cc
 					mkdir HOME || true; export HOME="$(pwd)/HOME"
 					source ./env.sh
 					v

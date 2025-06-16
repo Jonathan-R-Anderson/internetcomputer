@@ -24,24 +24,11 @@ import stl.elf64;
 
 import powerd.api;
 
-import memory.slab;
-import system.loader.config; // For SystemConfig and loadSystemConfig
-import system.loader.snap_loader; // For SnapLoader
-import memory.stack;
-
-
-
 private immutable uint _major = __VERSION__ / 1000;
 private immutable uint _minor = __VERSION__ % 1000;
 
 private __gshared TarFSBlockDevice _blockDevice;
 private __gshared TarFSSuperNode* _superNode;
-
-// Global slab and stack allocators
-__gshared Slab smallSlab;
-__gshared SystemConfig systemGlobalConfig; // Make config globally accessible
-__gshared StackAllocator stackAllocator;
-
 /// The initrd
 __gshared FSNode* initrdFS;
 __gshared size_t coresDone;
@@ -87,16 +74,6 @@ extern (C) void kmain(PowerDAPI* papi) {
 	assert(papi.magic == PowerDAPI.magicValue);
 	powerdAPI = papi;
 	preInit(papi);
-
-    // Parse system configuration early
-    try {
-        // Assuming config.toml is accessible via the VFS after initFS or part of initrd
-        // For now, let's assume it's in the initrd at a known path or mapped by loader
-        systemGlobalConfig = loadSystemConfig("/writable/system/config.toml"); // Path might need adjustment based on VFS init
-    } catch (Throwable e) {
-        Log.fatal("Failed to load /writable/system/config.toml (or it's malformed): ", e.msg);
-    }
-
 	welcome();
 	init(papi);
 	initFS(papi.getModule("tarfs"));
@@ -110,10 +87,6 @@ extern (C) void kmain(PowerDAPI* papi) {
 		}
 	}
 
-    // TODO: Initialize Ethereum Wallet using systemGlobalConfig.ethereum
-    // initializeEthereumWallet(systemGlobalConfig.ethereum);
-    // TODO: Discover available compute nodes (might be part of ethnode snap)
-    // discoverAvailableNodes(systemGlobalConfig);
 	Scheduler.isEnabled = true;
 
 	size_t counter;
@@ -150,14 +123,6 @@ extern (C) void kmain(PowerDAPI* papi) {
 
 		BGA.init();
 	}
-
-    // Initialize Snap Loader and load boot snaps
-    SnapLoader.init(&systemGlobalConfig, &initrdFS); // Pass config and root FS node
-    Log.info("Loading boot snaps...");
-    foreach(snapName; systemGlobalConfig.boot_snaps) {
-        Log.info("Attempting to load snap: ", snapName);
-        SnapLoader.launchSnapByName(snapName);
-    }
 
 	string initFile = "/binaries/init";
 	TarFSNode* initNode = cast(TarFSNode*)initrdFS.findNode(initFile);
@@ -342,7 +307,7 @@ void preInit(PowerDAPI* papi) {
 
 void welcome() {
 	VGA.writeln("Welcome to PowerNex!");
-	VGA.writeln("\tHostname: ", systemGlobalConfig.hostname); // Use loaded hostname
+	VGA.writeln("\tThe number one D kernel!");
 	VGA.writeln("Compiled using '", __VENDOR__, "', D version ", _major, ".", _minor, "\n");
 	Log.info("Welcome to PowerNex's serial console!");
 	Log.info("Compiled using '", __VENDOR__, "', D version ", _major, ".", _minor, "\n");
@@ -365,12 +330,6 @@ void init(PowerDAPI* papi) {
 	Log.info("Heap initializing...");
 
 	Heap.init(makeAddress(500, 0, 0, 0));
-
-	Log.info("Slab initializing...");
-	smallSlab.init(64); // Initialize a slab allocator for 64-byte structs
-
-	Log.info("StackAllocator ready...");
-	// No init needed for stackAllocator (uses Heap internally)
 
 	VGA.writeln("CMOS initializing...");
 	Log.info("CMOS initializing...");

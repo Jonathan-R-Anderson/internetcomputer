@@ -1,6 +1,0 @@
-name = "ethnode"
-entry = "/bin/eth_service" # Path inside the snap's own filesystem
-path = "/apps/ethnode"     # Path where the snap's content is located in the main FS
-
-syscalls = ["write", "read", "open", "close", "network_connect", "network_send", "network_recv"] # Example
-capabilities = ["/dev/random", "/dev/null", "/proc/self/environ"] # Example

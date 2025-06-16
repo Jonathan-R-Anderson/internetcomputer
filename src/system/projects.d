@@ -173,7 +173,6 @@ void initKernel() {
 			"fs/tarfs/block.d",
 			"fs/tarfs/node.d",
 			"fs/tarfs/supernode.d",
-			"fs/fhe0.d", // Added FHE device
 			"syscall/action/package.d",
 			"syscall/action/exit.d",
 			"syscall/action/yield.d",
@@ -182,7 +181,6 @@ void initKernel() {
 			"syscall/package.d",
 			"task/scheduler.d",
 			"task/thread.d",
-			"loader/snap_loader.d", // Added SnapLoader
 			"kmain.d"
 		);
 

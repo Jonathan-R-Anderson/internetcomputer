@@ -1,7 +1,0 @@
-name = "ml_worker"
-entry = "/bin/infer"
-compute = true
-encryption = "homomorphic"
-syscalls = ["read", "write", "mmap", "execve", "fhe_compute"] # Example syscalls
-capabilities = ["/dev/fhe0", "/mnt/data"]
-ethereum = true

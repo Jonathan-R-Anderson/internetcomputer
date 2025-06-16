@@ -1,3 +1,0 @@
-name = "init"
-entry = "/bin/init"
-# syscalls and capabilities to be defined

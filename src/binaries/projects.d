@@ -2,7 +2,6 @@ module src.binaries.projects;
 
 void setupProject() {
 	initInit();
-	initSnapctl();
 	initDraw();
 }
 
@@ -33,25 +32,6 @@ void initInit() {
 		outputs["init"] = linker("init", false, [dCompiler("dcode.o", false, dFiles), druntime.outputs["libdruntime"]]);
 	}
 	registerProject(init);
-}
-
-void initSnapctl() {
-	Project snapctl = new Project("Snapctl", SemVer(0, 1, 0));
-	with (snapctl) {
-		auto druntime = findDependency("DRuntime");
-		dependencies ~= druntime;
-		// dfmt off
-		auto dFiles = files!("src/binaries/snapctl/",
-			"app.d"
-		);
-		// dfmt on
-
-		auto dCompiler = Processor.combine(dCompilerPath ~ dCompilerArgs ~ " -version=Target_" ~ name);
-		auto linker = Processor.combine(linkerPath ~ linkerArgs);
-
-		outputs["snapctl"] = linker("snapctl", false, [dCompiler("dcode.o", false, dFiles), druntime.outputs["libdruntime"]]);
-	}
-	registerProject(snapctl);
 }
 
 void initDraw() {

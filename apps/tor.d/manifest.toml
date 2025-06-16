@@ -1,3 +1,0 @@
-name = "tor.d"
-entry = "/bin/tor_service"
-# syscalls and capabilities to be defined

@@ -1,3 +1,0 @@
-name = "devfs.d"
-entry = "/bin/devfs_service"
-# syscalls and capabilities to be defined

@@ -1,6 +1,6 @@
 function initCC() {
 	if [ ! -f build/cc/versionInfo ]; then
-		mkdir -p build
+		mkdir build
 		./toolchainManager.d
 	fi
 }

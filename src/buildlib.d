@@ -49,6 +49,7 @@ class Project {
 		void updatePath(Target t) {
 			if (t.state == Target.State.visualizing)
 				return;
+
 			t.state = Target.State.visualizing;
 			if (t.output.appendObjDir) {
 				t.output = objDir ~ t.output;

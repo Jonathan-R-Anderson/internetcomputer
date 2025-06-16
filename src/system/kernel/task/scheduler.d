@@ -12,28 +12,16 @@ import stl.register;
 import stl.address;
 import stl.io.log : Log;
 
-import kernel.scheduler; // For Task, CPUContext, tasks[], current
-import core.stdc.string : memcpy;
-
 private import stl.arch.amd64.gdt : maxCPUCount_ = maxCPUCount;
 
 alias ProcessorID = size_t;
 enum ProcessorID maxCPUCount = maxCPUCount_;
-
-import memory.stack;
-extern StackAllocator stackAllocator;
 
 extern extern (C) ulong getRIP() @trusted;
 extern extern (C) void fpuEnable() @trusted;
 extern extern (C) void fpuDisable() @trusted;
 extern extern (C) void cloneHelperKernelTask() @trusted;
 extern extern (C) void cloneHelperFork() @trusted;
-
-enum STACK_SIZE = 4096 * 4; // 16KB stack
-
-Task* currentTask() {
-    return &tasks[current];
-}
 
 @safe struct CPUInfo {
 	size_t id;
@@ -168,13 +156,9 @@ public static:
 
 	void addKernelTask(string threadName, CPUInfo* cpuInfo, KernelTaskFunction func, void* userdata) {
 		VMProcess* newProcess = newStruct!VMProcess(PhysAddress());
-
-		void* stackTop = stackAllocator.allocStack();
-		VirtMemoryRange taskStack = VirtMemoryRange(
-			cast(VirtAddress)stackTop - StackAllocator.STACK_SIZE,
-			cast(VirtAddress)stackTop
-		);
-
+		enum stackSize = 0x1000 - BuddyHeader.sizeof;
+		ubyte[] taskStack_ = Heap.allocate(stackSize);
+		VirtMemoryRange taskStack = VirtMemoryRange(VirtAddress(&taskStack_[0]), VirtAddress(&taskStack_[0]) + stackSize);
 		VMThread* newThread = newStruct!VMThread;
 
 		void set(T = ulong)(ref VirtAddress stack, T value) {
@@ -221,70 +205,56 @@ public static:
 		cpuInfo.allThread.put(newThread);
 	}
 
-size_t fork() @trusted {
-	import stl.arch.amd64.lapic;
+	size_t fork() @trusted {
+		import stl.arch.amd64.lapic;
 
-	enum userStackSize = 0x4000; // 16 KB user stack
+		VMThread* current = getCurrentThread();
+		VMThread* forkedThread = newStruct!VMThread;
+		with (forkedThread) {
+			pid = _getNextPid();
+			name = "FORKED";
+			process = current.process.fork(current);
+			cpuAssigned = current.cpuAssigned;
+			state = VMThread.State.running;
+			stack = current.stack;
+			image = current.image;
+			kernelTask = current.kernelTask;
+			niceFactor = current.niceFactor;
+			timeSlotsLeft = current.timeSlotsLeft;
+			threadState = current.threadState;
+			syscallRegisters = current.syscallRegisters;
+			syscallRegisters.rax = 0;
+			waitsFor = current.waitsFor;
+		}
 
-	VMThread* parent = getCurrentThread();
-	if (!parent)
-		return size_t.max;
+		void set(T = ulong)(ref VirtAddress stack, T value) {
+			auto size = T.sizeof;
+			*(stack - size).ptr!T = value;
+			stack -= size;
+		}
 
-	// Allocate new thread and process
-	VMThread* child = newStruct!VMThread;
-	VMProcess* childProcess = parent.process.fork(parent); // Ensure this clones paging structures
+		VirtAddress kernelStackBuilder = forkedThread.kernelStack;
+		import syscall;
 
-	// Allocate user stack
-	ubyte[] userStackBuf = Heap.allocate(userStackSize);
-	VirtMemoryRange userStack = VirtMemoryRange(VirtAddress(&userStackBuf[0]), VirtAddress(&userStackBuf[0] + userStackSize));
+		set(kernelStackBuilder, SyscallHandler.getUserStack(&_cpuInfo[current.cpuAssigned]));
+		set(kernelStackBuilder, forkedThread.syscallRegisters);
 
-	// Copy user stack from parent to child (naively)
-	memcpy(userStack.begin.ptr, parent.stack.begin.ptr, min(parent.stack.length, userStackSize));
+		with (forkedThread) {
+			threadState.instructionPtr = VirtAddress(&cloneHelperFork);
+			threadState.basePtr = threadState.stackPtr = kernelStackBuilder;
+		}
 
-	// Copy user registers and patch return value
-	child.syscallRegisters = parent.syscallRegisters;
-	child.syscallRegisters.rax = 0; // Child gets 0 return value from fork
-	child.syscallRegisters.rsp = userStack.end; // Set up user stack
-	child.syscallRegisters.cs = 0x1B; // User mode CS (ring 3)
-	child.syscallRegisters.ss = 0x23; // User mode SS (ring 3)
-	child.syscallRegisters.flags = 0x202; // IF=1
-
-	// Stack setup for trampoline
-	void set(T)(ref VirtAddress sp, T value) {
-		sp -= T.sizeof;
-		*cast(T*)sp.ptr = value;
+		Log.warning("current: (", current, ")");
+		Log.warning("\tpid: ", current.pid);
+		Log.warning("\tname: ", current.name);
+		Log.warning("\tprocess: ", current.process);
+		Log.warning("forkedThread: (", forkedThread, ")");
+		Log.warning("\tpid: ", forkedThread.pid);
+		Log.warning("\tname: ", forkedThread.name);
+		Log.warning("\tprocess: ", forkedThread.process);
+		_cpuInfo[current.cpuAssigned].allThread.put(forkedThread);
+		return forkedThread.pid;
 	}
-
-	VirtAddress kernelStackBuilder = child.kernelStack;
-
-	set(kernelStackBuilder, SyscallHandler.getUserStack(&_cpuInfo[parent.cpuAssigned])); // placeholder for user stack base
-	set(kernelStackBuilder, child.syscallRegisters); // full register context
-
-	// Fill in thread metadata
-	with (child) {
-		pid = _getNextPid();
-		name = "UserForked";
-		process = childProcess;
-		cpuAssigned = parent.cpuAssigned;
-		state = VMThread.State.running;
-		stack = userStack;
-		kernelTask = false;
-		niceFactor = parent.niceFactor;
-		timeSlotsLeft = parent.niceFactor;
-		threadState.instructionPtr = VirtAddress(&cloneHelperFork); // trampoline to restore user mode
-		threadState.basePtr = threadState.stackPtr = kernelStackBuilder;
-		image = parent.image;
-	}
-
-	// Parent gets child's PID
-	parent.syscallRegisters.rax = child.pid;
-
-	// Add to scheduler
-	_cpuInfo[parent.cpuAssigned].allThread.put(child);
-
-	return child.pid;
-}
-
 
 	@property size_t coresActive() @trusted {
 		return _coresActive;
@@ -413,12 +383,9 @@ private static:
 		}
 
 		VMProcess* idleProcess = newStruct!VMProcess(PhysAddress());
-		void* stackTop = stackAllocator.allocStack();
-		VirtMemoryRange taskStack = VirtMemoryRange(
-			cast(VirtAddress)stackTop - StackAllocator.STACK_SIZE,
-			cast(VirtAddress)stackTop
-		);
-
+		enum stackSize = 0x1000 - BuddyHeader.sizeof;
+		ubyte[] taskStack_ = Heap.allocate(stackSize);
+		VirtMemoryRange taskStack = VirtMemoryRange(VirtAddress(&taskStack_[0]), VirtAddress(&taskStack_[0]) + stackSize);
 
 		VMThread* idleThread = newStruct!VMThread;
 		with (idleThread) {
@@ -460,4 +427,3 @@ private static:
 		cpuInfo.allThread.put(kernelThread);
 	}
 }
-

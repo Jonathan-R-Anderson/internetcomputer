@@ -14,20 +14,17 @@ import core.sys.posix.stdio : fgets;
 import core.sys.posix.unistd : isatty;
 import core.stdc.string : strlen;
 import std.stdio : write, writeln, stdout, stderr, stdin, File;
-import std.file : exists, readText, fwrite = write, rmdirRecurse, mkdirRecurse, read, remove, getcwd;
+import std.file : exists, readText, fwrite = write, rmdirRecurse, mkdirRecurse;
 import std.ascii : toLower, toUpper;
-import std.json : JSONValue, parseJSON, JSONType;
+import std.json : JSONValue, parseJSON, JSON_TYPE;
 import std.net.curl : get, HTTP;
 import std.range : repeat;
 import std.math : isNaN;
 import std.format : format;
 import std.process : executeShell, pipeShell, wait, ProcessPipes, Redirect;
-import std.conv : to, ConvException;
+import std.conv : to;
 import std.typecons : Yes, No, Flag;
 import std.getopt : getopt, defaultGetoptPrinter;
-import std.process : ProcessException;
-import std.path : buildPath, absolutePath;
-import std.string : strip, replace;
 
 //
 enum size_t major = 1;
@@ -57,133 +54,51 @@ void error(Args...)(Args args) {
 
 //Version = Successfull ci build
 struct VersionInfo {
-	size_t binutilsVersionId;
-	string binutilsVersionTag;
-	string binutilsCommitHash;
+	size_t dmdVersion;
+	size_t binutilsVersion;
 }
 
 const string toolchainFolder = "build/cc";
 const string versionInfoFile = toolchainFolder ~ "/versionInfo";
-const string toolchainSrcFolder = "build/src";
 
 VersionInfo getOldInfo() {
 	VersionInfo oldVI;
-	if (!exists(versionInfoFile)) return oldVI;
-	try {
-		JSONValue data = parseJSON(readText(versionInfoFile));
-		if (auto val = "binutilsCommitHash" in data) {
-			if (val.type == JSONType.string) oldVI.binutilsCommitHash = val.str.idup;
-		}
-	} catch (Exception e) {
-		warning("Could not parse versionInfo: ", e.msg, "\n");
+	if (!exists(versionInfoFile))
+		return oldVI;
+
+	JSONValue data = parseJSON(readText(versionInfoFile));
+	if (auto _ = "dmdVersion" in data) {
+		if (_.type == JSON_TYPE.UINTEGER)
+			oldVI.dmdVersion = _.uinteger;
+		else
+			oldVI.dmdVersion = cast(ulong)_.integer;
 	}
+	if (auto _ = "binutilsVersion" in data) {
+		if (_.type == JSON_TYPE.UINTEGER)
+			oldVI.binutilsVersion = _.uinteger;
+		else
+			oldVI.binutilsVersion = cast(ulong)_.integer;
+	}
+
 	return oldVI;
 }
 
-
-private string getGitCommitHash(string repoPath) {
-	try {
-		auto result = executeShell("git -C \"" ~ repoPath ~ "\" rev-parse HEAD");
-		if (result.status == 0) return result.output.strip.idup;
-		warning("Failed to get git commit hash: ", result.output, "\n");
-	} catch (ProcessException e) {
-		warning("Git error: ", e.msg, "\n");
-	}
-	return null;
-}
-
-
-private bool ensureRepo(string url, string path, bool fullCloneIfNew = false) {
-	try {
-		if (!exists(path ~ "/.git")) {
-			mkdirRecurse(path);
-string cloneCmd = "git clone ";
-            if (!fullCloneIfNew) { // If not requesting full, use shallow for non-version-pinned repos
-                cloneCmd ~= "--depth 1 ";
-            }
-            // If fullCloneIfNew is true, it will be a full clone.
-            cloneCmd ~= url ~ " \"" ~ path ~ "\"";
-			normal("Cloning ", url, " into ", path, " with command: ", cloneCmd, "\n");
-			auto res = executeShell(cloneCmd);
-			if (res.status != 0) {
-				error("Clone failed: ", res.output, "\n");
-				error("Clone failed for ", url, ": ", res.output, "\n");
-				return false;
-			}
-            // After a fresh clone, ensure tags are fetched if we need them for versioning,
-            // especially for the main binutils-gdb repo.
-            if (url == "git://sourceware.org/git/binutils-gdb.git") {
-                normal("Fetching tags for ", path, "...\n");
-                auto fetchTagRes = executeShell("git -C \"" ~ path ~ "\" fetch --tags");
-                if (fetchTagRes.status != 0) {
-                    warning("Failed to fetch tags for ", path, ": ", fetchTagRes.output, "\n");
-                    // Not necessarily fatal, checkout might still work if tag was included in initial clone
-                }
-            }
-			if (res.status != 0) {
-				error("Clone failed: ", res.output, "\n");
-				return false;
-			}
-		} else {
-            normal("Repository at ", path, " already exists. Fetching updates and tags...\n");
-			auto fetchRes = executeShell("git -C \"" ~ path ~ "\" fetch --all --tags"); // Fetch all branches and tags
-            if (fetchRes.status != 0) {
-                warning("Failed to fetch updates for ", path, ": ", fetchRes.output, "\n");
-                // Continue, as the existing local repo might still be usable.
-            }
-		}
-		return true;
-	} catch (ProcessException e) {
-		error("Git process error on ", path, ": ", e.msg, "\n");
-		return false;
-	}
-}
-
 VersionInfo getNewInfo() {
-	VersionInfo newVI;
-	string binutilsVersionTag = "binutils-2_28"; // Target tag for binutils 2.28
-	string upstreamUrl = "git://sourceware.org/git/binutils-gdb.git";
-	string upstreamPath = toolchainSrcFolder ~ "/binutils-gdb";
-	string patchUrl = "https://github.com/PowerNex/powernex-binutils.git";
-	string patchPath = toolchainSrcFolder ~ "/powernex-binutils";
-
-	mkdirRecurse(toolchainSrcFolder);
-	if (!ensureRepo(upstreamUrl, upstreamPath)) return newVI;
-	if (!ensureRepo(patchUrl, patchPath, false)) return newVI; // Patch repo can be shallow
-
-	// Checkout the specific binutils version in upstreamPath
-    string checkoutCmd = "bash -c 'cd \"" ~ upstreamPath ~ "\" && " ~
-                       "git checkout tags/" ~ binutilsVersionTag ~ " -B " ~ binutilsVersionTag ~ "_local_branch && " ~
-                       "git reset --hard HEAD'"; // Ensure clean state on the tag branch
-    normal("Attempting to checkout tag: ", binutilsVersionTag, " in ", upstreamPath, "\n");
-    auto checkoutResult = executeShell(checkoutCmd);
-    if (checkoutResult.status != 0) {
-        error("Failed to checkout binutils tag ", binutilsVersionTag, " in ", upstreamPath, ". Error:\n", checkoutResult.output);
-        return newVI;
-    }
-    normal("Checked out ", binutilsVersionTag, " to local branch ", binutilsVersionTag, "_local_branch in ", upstreamPath, "\n");
-	string actualPatchFile = buildPath(patchPath, "binutils-2.28.patch");
-	string absoluteActualPatchFile = absolutePath(actualPatchFile);
-
-	auto patchResult = executeShell(
-		"bash -c 'cd \"" ~ upstreamPath ~ "\" && " ~
-		"git checkout -B powernex " ~ binutilsVersionTag ~ "_local_branch && " ~ 
-		"git apply -p1 --whitespace=fix --reject \"" ~ absoluteActualPatchFile ~ "\" && " ~
-		"git add -A && " ~
-		"git commit --allow-empty -m \"Applied PowerNex custom patches from " ~ actualPatchFile.replace("\"", "\\\"") ~ " to " ~ binutilsVersionTag ~ "\"'"
-	);
-
-
-	if (patchResult.status != 0) {
-		error("Patch application failed for \"", absoluteActualPatchFile, "\". Error:\n", patchResult.output);
-		return newVI;
+	size_t getLatestVersion(string url) {
+		JSONValue data = parseJSON(get(url));
+		auto _ = data["lastCompletedBuild"]["number"];
+		if (_.type == JSON_TYPE.UINTEGER)
+			return _.uinteger;
+		else
+			return cast(ulong)_.integer;
 	}
 
-	newVI.binutilsCommitHash = getGitCommitHash(upstreamPath);
+	VersionInfo newVI;
+	newVI.dmdVersion = getLatestVersion("https://ci.vild.io/job/PowerNex/job/powernex-dmd/job/master/api/json");
+	newVI.binutilsVersion = getLatestVersion("https://ci.vild.io/job/PowerNex/job/powernex-binutils/job/master/api/json");
+
 	return newVI;
 }
-
-
 
 char question(char defaultAlt, char[] alternative, Args...)(Args args) {
 	char[64] data;
@@ -272,30 +187,6 @@ struct ProcessPipe {
 	}
 }
 
-
-bool checkGitExists() {
-    try {
-        auto result = executeShell("git --version");
-        return result.status == 0;
-    } catch (ProcessException) {
-        return false;
-    }
-}
-
-bool checkDmdExists() {
-    try {
-        auto result = executeShell("dmd --version");
-        return result.status == 0;
-    } catch (ProcessException) {
-        return false;
-    }
-}
-
-
-private string getAbsoluteInstallPrefix() {
-    return getcwd() ~ "/" ~ toolchainFolder;
-}
-
 void downloadProgress(T = SaveFile, Args...)(string name, const(char)[] url, Args args) {
 	T receiver = T(args);
 	HTTP http = HTTP(url); // Because opCall
@@ -340,18 +231,6 @@ int main(string[] args) {
 	static string versionMsg = "PowerNex's toolchain manager v" ~ major.to!string ~ "." ~ minor.to!string ~ "."
 		~ patch.to!string ~ "\n" ~ "Copyright © 2017, Dan Printzell - https://github.com/Vild/PowerNex";
 
-
-	if (!checkGitExists()) {
-		error("Git is not installed or not found in PATH. Please install Git to proceed.\n");
-		return 1;
-	}
-
-	if (!checkDmdExists()) {
-		error("DMD (D Compiler) is not installed or not found in PATH.\n");
-		error("This script relies on a system-installed DMD. Please install DMD to proceed.\n");
-		error("You can typically install it from https://dlang.org/download.html or your system's package manager.\n");
-		return 1;
-	}
 	// dfmt off
 	auto helpInformation = getopt(args,
 		"v|version", "Show the updaters version", &showVersion,
@@ -372,27 +251,24 @@ int main(string[] args) {
 	normal("PowerNex's toolchain manager - https://github.com/Vild/PowerNex\n");
 	VersionInfo oldVI = clean ? VersionInfo.init : getOldInfo();
 	VersionInfo newVI = getNewInfo();
-	// Check if fetching new info failed
-
-		if (newVI.binutilsCommitHash is null) {
-		error("Failed to retrieve latest version information for PowerNex-binutils. Check network or Git setup.\n");
-		if (oldVI.binutilsCommitHash is null) { // No old version either
-			return 1; // Critical failure if binutils cannot be established
-		}
-		warning("Proceeding with potentially outdated PowerNex-binutils information due to fetch failure.\n");
-
-		// Use oldVI as newVI if fetching failed but an old version exists
-		if (newVI.binutilsCommitHash is null && oldVI.binutilsCommitHash !is null) newVI.binutilsCommitHash = oldVI.binutilsCommitHash;
-	}
-
-	bool newBinutils = newVI.binutilsCommitHash !is null && oldVI.binutilsCommitHash != newVI.binutilsCommitHash;
-
-	if (!clean && !newBinutils && oldVI.binutilsCommitHash !is null) {
-		good("You already have the latest PowerNex-binutils!\n");
+	bool newDMD = newVI.dmdVersion > oldVI.dmdVersion;
+	bool newBinutils = newVI.binutilsVersion > oldVI.binutilsVersion;
+	if (!newDMD && !newBinutils) {
+		good("You already have the latest toolchain!\n");
 		return 0;
 	}
+
+	if (newDMD) {
+		if (oldVI.dmdVersion)
+			good("There is a new DMD version! (from: v.", oldVI.dmdVersion, " to: v.", newVI.dmdVersion, ")\n");
+		else
+			good("DMD is missing! Will download version ", newVI.dmdVersion, ".\n");
+	}
 	if (newBinutils) {
-		good("BINUTILS is missing or version info is incomplete! Will download version ", newVI.binutilsVersionTag, ".\n");
+		if (oldVI.binutilsVersion)
+			good("There is a new BINUTILS version! (from: v.", oldVI.binutilsVersion, " to: v.", newVI.binutilsVersion, ")\n");
+		else
+			good("BINUTILS is missing! Will download version ", newVI.binutilsVersion, ".\n");
 	}
 
 	char answer = question!('y', ['y', 'n'])("Do you want to continue with the download?");
@@ -400,58 +276,33 @@ int main(string[] args) {
 		return -1;
 	if (answer == 'n')
 		return 0;
-	if (exists(toolchainFolder) || exists(toolchainSrcFolder)) {
+	if (exists(toolchainFolder)) {
 		if (!clean) {
-			answer = question!('n', ['y', 'n'])(
-				"Erase toolchain install (" ~ toolchainFolder ~ ") and source (" ~ toolchainSrcFolder ~ ") folders before starting? (Will force rebuild)");
+			answer = question!('n', ['y', 'n'])("Erase the toolchains folder content before starting? (Will force download everything)");
 			if (answer == char.init)
 				return -1;
 			clean |= answer == 'y';
 		}
-		if (clean) {
-			normal("Cleaning toolchain install directory: ", toolchainFolder, "\n");
-			if (exists(toolchainFolder))
-				rmdirRecurse(toolchainFolder);
-			normal("Cleaning toolchain source directory: ", toolchainSrcFolder, "\n");
-			if (exists(toolchainSrcFolder))
-				rmdirRecurse(toolchainSrcFolder);
-			// Re-ensure repos are cloned if clean was chosen
-			newVI = getNewInfo(); // This will re-clone if src folder was removed
-		}
+		if (clean)
+			rmdirRecurse(toolchainFolder);
 	}
 
 	mkdirRecurse(toolchainFolder ~ "/bin");
-	string installPrefix = getAbsoluteInstallPrefix();
-
-	
+	if (newDMD || clean) {
+		downloadProgress!ProcessPipe("DMD",
+				"https://ci.vild.io/job/PowerNex/job/powernex-dmd/job/master/" ~ newVI.dmdVersion.to!string ~ "/artifact/powernex-dmd.tar.xz",
+				"tar xkJ --no-same-owner -C " ~ toolchainFolder, No.IgnoreStdOut, Yes.IgnoreStdErr);
+	}
 
 	if (newBinutils || clean) {
-		if (newVI.binutilsCommitHash) {
-			normal("Building PowerNex Binutils...\n");
-			string binutilsSrcPath = toolchainSrcFolder ~ "/binutils-gdb"; // Build from the patched binutils-gdb directory
-			// !!! IMPORTANT: Replace this with the actual build command for powernex-binutils !!!
-			string buildCmdBinutils = "cd \"" ~ binutilsSrcPath ~ "\" && ./configure --prefix=\"" ~ installPrefix ~ "\" --target=x86_64-powernex --enable-ld --enable-gas --disable-gdb --disable-nls && make -j$(nproc) MAKEINFO=/bin/true && make MAKEINFO=/bin/true install";
-			warning("Executing placeholder Binutils build: ", buildCmdBinutils, "\n");
-			auto buildRes = executeShell(buildCmdBinutils);
-			if (buildRes.status != 0) {
-				error("Failed to build PowerNex Binutils: ", buildRes.output, "\n");
-				return 1;
-			}
-			good("PowerNex Binutils build successful.\n");
-		} else {
-			error("Binutils commit hash is missing, cannot build. Ensure Git clone was successful.\n");
-			return 1;
-		}
+		downloadProgress!ProcessPipe("BINUTILS",
+				"https://ci.vild.io/job/PowerNex/job/powernex-binutils/job/master/" ~ newVI.binutilsVersion.to!string ~ "/artifact/powernex-binutils.tar.xz",
+				"tar xkJ --no-same-owner -C " ~ toolchainFolder, No.IgnoreStdOut, Yes.IgnoreStdErr);
 	}
 
 	normal("Saving new version file...\n");
 	{
-		import std.json : JSONValue;
-
-		JSONValue data = JSONValue([
-			"binutilsCommitHash": JSONValue(newVI.binutilsCommitHash)
-		]);
-
+		JSONValue data = ["dmdVersion" : newVI.dmdVersion, "binutilsVersion" : newVI.binutilsVersion];
 		fwrite(versionInfoFile, data.toString);
 	}
 	normal("Everything is now up to date :)\n");
