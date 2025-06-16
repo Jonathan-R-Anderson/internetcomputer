@@ -1,0 +1,27 @@
+[system]
+boot_snaps = ["init", "devfs.d", "shell", "tor.d", "ethnode"]
+hostname = "gremlin-os"
+timezone = "UTC"
+
+[network]
+enabled = true
+interfaces = ["eth0"]
+
+[ethereum]
+enabled = true
+provider = "https://mainnet.era.zksync.io"
+wallet_private_key = "env:ETH_KEY"
+use_zksync = true
+
+[compute]
+allow_rented_devices = true
+default_encryption = "homomorphic"
+trusted_nodes = ["0xabc...", "0xdef..."]
+
+[snaps.ethnode]
+path = "/apps/ethnode"
+entry = "/bin/eth_sync"
+syscalls = ["read", "write", "open", "sendto", "recvfrom"]
+capabilities = ["/dev/net", "/writable/eth"]
+
+# Add other snap-specific configurations as needed, e.g., for ml_worker

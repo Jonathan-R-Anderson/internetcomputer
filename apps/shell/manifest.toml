@@ -1,0 +1,3 @@
+name = "shell"
+entry = "/bin/shell"
+# syscalls and capabilities to be defined

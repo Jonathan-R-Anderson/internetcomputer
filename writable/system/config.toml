@@ -1,0 +1,40 @@
+# System-wide configuration for WorldComputer OS
+# This file is typically loaded by the kernel or early init system.
+# Path: /writable/system/config.toml (as referenced in src/system/loader/config.d)
+
+[system]
+hostname = "worldcomputer-node"
+timezone = "UTC"
+# Snaps to load and start at boot. Order can be important.
+# 'init' is typically the main userspace init process.
+# 'devfs.d' should run early to set up /dev.
+# 'shell' provides user interaction.
+boot_snaps = ["init", "devfs.d", "shell", "ml_worker", "tor.d", "ethnode"]
+
+[network]
+enabled = true
+interfaces = ["eth0"] # Example, could be dynamically discovered or configured
+
+[ethereum]
+enabled = false # Set to true to enable Ethereum features
+provider = "http://localhost:8545" # RPC endpoint for an Ethereum node
+wallet_private_key = "" # IMPORTANT: For security, use environment variables or a secure vault in a real system.
+use_zksync = false
+
+[compute]
+allow_rented_devices = true
+default_encryption = "homomorphic" # Options: "homomorphic", "none", "aes-gcm", etc.
+trusted_nodes = [] # List of trusted compute provider Ethereum addresses or identifiers
+
+# Snap-specific configurations (optional)
+# These can supplement or override settings from individual snap manifest.toml files,
+# or provide boot-time parameters.
+# The 'path' would be where the loader/snap manager finds the snap.
+# Format: [snaps."<snap_name>"]
+
+# [snaps."devfs.d"]
+# path = "/apps/devfs.d" # If not found by convention
+# capabilities = ["/dev", "/sys", "/proc/devices"] # Example override
+
+# [snaps.ml_worker]
+# capabilities = ["/dev/fhe0", "/mnt/data", "/mnt/models"] # Example supplement

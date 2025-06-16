@@ -1,0 +1,2 @@
+find . -type f \( -name "*.d" -o -name "*.c" -o -name "*.h" -o -name "*.txt" \) | sort | while read -r fi
+le; do     if [ $(wc -l < "$file") -le 50 ]; then         echo "===== $file =====";         cat "$file";         echo;     fi; done > filelist.txt
