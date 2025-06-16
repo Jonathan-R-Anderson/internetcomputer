@@ -52,10 +52,14 @@ void error(Args...)(Args args) {
 	stderr.write("\x1b[37;41;1m", args, "\x1b[0m");
 }
 
-//Version = Successfull ci build
+// Target versions for binutils and GDB
+const string targetBinutilsVersion = "2.28";
+const string targetGdbVersion = "8.0";
+
 struct VersionInfo {
-	size_t dmdVersion;
-	size_t binutilsVersion;
+	size_t dmdBuild;        // CI build number for DMD
+	string binutilsVersion; // e.g., "2.28"
+	string gdbVersion;      // e.g., "8.0"
 }
 
 const string toolchainFolder = "build/cc";
@@ -67,35 +71,45 @@ VersionInfo getOldInfo() {
 		return oldVI;
 
 	JSONValue data = parseJSON(readText(versionInfoFile));
-	if (auto _ = "dmdVersion" in data) {
-		if (_.type == JSON_TYPE.UINTEGER)
-			oldVI.dmdVersion = _.uinteger;
-		else
-			oldVI.dmdVersion = cast(ulong)_.integer;
+	if (auto val = "dmdVersion" in data) { // dmdVersion key stores the CI build number
+		if (val.type == JSON_TYPE.UINTEGER)
+			oldVI.dmdBuild = val.uinteger;
+		else if (val.type == JSON_TYPE.INTEGER)
+			oldVI.dmdBuild = cast(ulong)val.integer;
 	}
-	if (auto _ = "binutilsVersion" in data) {
-		if (_.type == JSON_TYPE.UINTEGER)
-			oldVI.binutilsVersion = _.uinteger;
-		else
-			oldVI.binutilsVersion = cast(ulong)_.integer;
+	if (auto val = "binutilsVersion" in data) {
+		if (val.type == JSON_TYPE.STRING) // Expecting string like "2.28"
+			oldVI.binutilsVersion = val.str;
+		// If it was a number (old format), it remains null, triggering update
+	}
+	if (auto val = "gdbVersion" in data) {
+		if (val.type == JSON_TYPE.STRING) // Expecting string like "8.0"
+			oldVI.gdbVersion = val.str;
 	}
 
 	return oldVI;
 }
 
 VersionInfo getNewInfo() {
-	size_t getLatestVersion(string url) {
+	// Fetches the latest successful CI build number for DMD
+	size_t getLatestDmdBuildNumber(string url) {
 		JSONValue data = parseJSON(get(url));
-		auto _ = data["lastCompletedBuild"]["number"];
-		if (_.type == JSON_TYPE.UINTEGER)
-			return _.uinteger;
-		else
-			return cast(ulong)_.integer;
+		auto lastBuild = "lastCompletedBuild" in data;
+		if (!lastBuild) return 0; // Or handle error
+		auto number = "number" in (*lastBuild);
+		if (!number) return 0; // Or handle error
+
+		if (number.type == JSON_TYPE.UINTEGER)
+			return number.uinteger;
+		else if (number.type == JSON_TYPE.INTEGER)
+			return cast(ulong)number.integer;
+		return 0; // Default or error
 	}
 
 	VersionInfo newVI;
-	newVI.dmdVersion = getLatestVersion("https://ci.vild.io/job/PowerNex/job/powernex-dmd/job/master/api/json");
-	newVI.binutilsVersion = getLatestVersion("https://ci.vild.io/job/PowerNex/job/powernex-binutils/job/master/api/json");
+	newVI.dmdBuild = getLatestDmdBuildNumber("https://ci.vild.io/job/PowerNex/job/powernex-dmd/job/master/api/json");
+	newVI.binutilsVersion = targetBinutilsVersion;
+	newVI.gdbVersion = targetGdbVersion;
 
 	return newVI;
 }
@@ -251,24 +265,37 @@ int main(string[] args) {
 	normal("PowerNex's toolchain manager - https://github.com/Vild/PowerNex\n");
 	VersionInfo oldVI = clean ? VersionInfo.init : getOldInfo();
 	VersionInfo newVI = getNewInfo();
-	bool newDMD = newVI.dmdVersion > oldVI.dmdVersion;
-	bool newBinutils = newVI.binutilsVersion > oldVI.binutilsVersion;
-	if (!newDMD && !newBinutils) {
-		good("You already have the latest toolchain!\n");
+
+	bool dmdNeedsUpdate = newVI.dmdBuild > oldVI.dmdBuild;
+	bool binutilsNeedsUpdate = oldVI.binutilsVersion != newVI.binutilsVersion;
+	bool gdbNeedsUpdate = oldVI.gdbVersion != newVI.gdbVersion;
+
+	if (!dmdNeedsUpdate && !binutilsNeedsUpdate && !gdbNeedsUpdate) {
+		good("All toolchain components are already up to date or at the target versions!\n");
 		return 0;
 	}
 
-	if (newDMD) {
-		if (oldVI.dmdVersion)
-			good("There is a new DMD version! (from: v.", oldVI.dmdVersion, " to: v.", newVI.dmdVersion, ")\n");
+	if (dmdNeedsUpdate) {
+		if (oldVI.dmdBuild > 0)
+			good("There is a new DMD version available! (from CI build: #", oldVI.dmdBuild, " to CI build: #", newVI.dmdBuild, ")\n");
 		else
-			good("DMD is missing! Will download version ", newVI.dmdVersion, ".\n");
+			good("DMD is missing or outdated! Will download based on CI build #", newVI.dmdBuild, ".\n");
 	}
-	if (newBinutils) {
-		if (oldVI.binutilsVersion)
-			good("There is a new BINUTILS version! (from: v.", oldVI.binutilsVersion, " to: v.", newVI.binutilsVersion, ")\n");
+	if (binutilsNeedsUpdate) {
+		if (oldVI.binutilsVersion !is null && oldVI.binutilsVersion.length > 0)
+			good("Binutils target version changed or component missing! (current: v.", oldVI.binutilsVersion, ", target: v.", newVI.binutilsVersion, ")\n");
 		else
-			good("BINUTILS is missing! Will download version ", newVI.binutilsVersion, ".\n");
+			good("Binutils is missing or version differs! Will install target version v.", newVI.binutilsVersion, ".\n");
+	}
+	if (gdbNeedsUpdate) {
+		if (oldVI.gdbVersion !is null && oldVI.gdbVersion.length > 0)
+			good("GDB target version changed or component missing! (current: v.", oldVI.gdbVersion, ", target: v.", newVI.gdbVersion, ")\n");
+		else
+			good("GDB is missing or version differs! Will install target version v.", newVI.gdbVersion, ".\n");
+	}
+
+	if (!dmdNeedsUpdate && (newVI.dmdBuild > 0)) { // dmdBuild can be 0 if CI fetch fails
+		normal("DMD is up to date (CI build #", newVI.dmdBuild, ").\n");
 	}
 
 	char answer = question!('y', ['y', 'n'])("Do you want to continue with the download?");
@@ -288,21 +315,38 @@ int main(string[] args) {
 	}
 
 	mkdirRecurse(toolchainFolder ~ "/bin");
-	if (newDMD || clean) {
+	if (dmdNeedsUpdate || (clean && newVI.dmdBuild > 0)) {
 		downloadProgress!ProcessPipe("DMD",
-				"https://ci.vild.io/job/PowerNex/job/powernex-dmd/job/master/" ~ newVI.dmdVersion.to!string ~ "/artifact/powernex-dmd.tar.xz",
+				"https://ci.vild.io/job/PowerNex/job/powernex-dmd/job/master/" ~ newVI.dmdBuild.to!string ~ "/artifact/powernex-dmd.tar.xz",
 				"tar xkJ --no-same-owner -C " ~ toolchainFolder, No.IgnoreStdOut, Yes.IgnoreStdErr);
 	}
 
-	if (newBinutils || clean) {
+	if (binutilsNeedsUpdate || clean) {
+		// IMPORTANT: Replace this URL with the actual download link for binutils 2.28
+		string binutilsDownloadUrl = "YOUR_URL_FOR_BINUTILS_" ~ newVI.binutilsVersion ~ ".tar.xz"; // e.g., https://example.com/binutils-2.28.tar.xz
+		warning("Attempting to download Binutils v", newVI.binutilsVersion, " from: ", binutilsDownloadUrl, "\n");
+		warning("Please ensure this URL points to a valid pre-built tar.xz archive.\n");
 		downloadProgress!ProcessPipe("BINUTILS",
-				"https://ci.vild.io/job/PowerNex/job/powernex-binutils/job/master/" ~ newVI.binutilsVersion.to!string ~ "/artifact/powernex-binutils.tar.xz",
+				binutilsDownloadUrl,
+				"tar xkJ --no-same-owner -C " ~ toolchainFolder, No.IgnoreStdOut, Yes.IgnoreStdErr);
+	}
+
+	if (gdbNeedsUpdate || clean) {
+		// IMPORTANT: Replace this URL with the actual download link for GDB 8.0
+		string gdbDownloadUrl = "YOUR_URL_FOR_GDB_" ~ newVI.gdbVersion ~ ".tar.xz"; // e.g., https://example.com/gdb-8.0.tar.xz
+		warning("Attempting to download GDB v", newVI.gdbVersion, " from: ", gdbDownloadUrl, "\n");
+		warning("Please ensure this URL points to a valid pre-built tar.xz archive.\n");
+		downloadProgress!ProcessPipe("GDB",
+				gdbDownloadUrl,
 				"tar xkJ --no-same-owner -C " ~ toolchainFolder, No.IgnoreStdOut, Yes.IgnoreStdErr);
 	}
 
 	normal("Saving new version file...\n");
 	{
-		JSONValue data = ["dmdVersion" : newVI.dmdVersion, "binutilsVersion" : newVI.binutilsVersion];
+		JSONValue data;
+		data["dmdVersion"] = newVI.dmdBuild; // Still using "dmdVersion" as key for build number
+		data["binutilsVersion"] = newVI.binutilsVersion;
+		data["gdbVersion"] = newVI.gdbVersion;
 		fwrite(versionInfoFile, data.toString);
 	}
 	normal("Everything is now up to date :)\n");
