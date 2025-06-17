@@ -1,0 +1,25 @@
+{
+  "name": "logger-service",
+  "version": "0.2.0",
+  "description": "System-wide logging daemon for WorldComputer.",
+  "source": {
+    "type": "git",
+    "url": "https://your-git-server.com/worldcomputer/logger-service.git",
+    "revision": "v0.2.0"
+  },
+  "dependencies": [
+    "core-utils"
+  ],
+  "build": {
+    "commands": [
+      "dub build --compiler=ldc2 -b release"
+    ]
+  },
+  "install": {
+    "commands": [
+      "mkdir -p $DESTDIR/sbin",
+      "cp ./loggerd $DESTDIR/sbin/wcloggerd"
+    ]
+  },
+  "provides": ["/sbin/wcloggerd"]
+}

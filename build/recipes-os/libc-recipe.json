@@ -1,0 +1,23 @@
+{
+  "name": "libc",
+  "version": "0.1.0",
+  "description": "Standard C library for WorldComputer.",
+  "source": {
+    "type": "git",
+    "url": "https://your-git-server.com/worldcomputer/libc.git",
+    "revision": "main"
+  },
+  "dependencies": [],
+  "build": {
+    "commands": [
+      "./configure --prefix=/usr",
+      "make -j$(nproc)"
+    ]
+  },
+  "install": {
+    "commands": [
+      "make DESTDIR=$DESTDIR install"
+    ]
+  },
+  "provides": ["/lib/libc.so.6"]
+}

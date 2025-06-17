@@ -1,0 +1,51 @@
+{
+  "system": {
+    "hostname": "worldcomputer-node-01",
+    "timezone": "UTC",
+    "kernelParams": "quiet splash",
+    "defaultGeneration": "gen-001"
+  },
+  "recipes": [
+    "worldcomputer_config/recipes/core-utils-recipe.json",
+    "worldcomputer_config/recipes/core-shell-recipe.json",
+    "worldcomputer_config/recipes/network-manager-recipe.json",
+    "worldcomputer_config/recipes/tor-daemon-recipe.json",
+    "worldcomputer_config/recipes/logger-service-recipe.json"
+  ],
+  "services": [
+    {
+      "name": "shell",
+      "recipe": "worldcomputer_config/recipes/core-shell-recipe.json",
+      "enabled": true,
+      "config": {
+        "prompt": "WC:\\u@\\h:\\w\\$ "
+      }
+    },
+    {
+      "name": "networking",
+      "recipe": "worldcomputer_config/recipes/network-manager-recipe.json",
+      "enabled": true,
+      "config": {
+        "interfaces": [
+          { "device": "eth0", "dhcp": true },
+          { "device": "eth1", "address": "10.0.0.1/24" }
+        ]
+      }
+    },
+    {
+      "name": "tor",
+      "recipe": "worldcomputer_config/recipes/tor-daemon-recipe.json",
+      "enabled": false,
+      "config": {
+        "hiddenServices": [
+          { "name": "ssh", "port": 22, "localPort": 2222 }
+        ]
+      }
+    },
+    {
+      "name": "system-logger",
+      "recipe": "worldcomputer_config/recipes/logger-service-recipe.json",
+      "enabled": true
+    }
+  ]
+}

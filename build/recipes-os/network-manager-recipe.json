@@ -1,0 +1,25 @@
+{
+  "name": "network-manager",
+  "version": "0.3.1",
+  "description": "Network management service for WorldComputer.",
+  "source": {
+    "type": "git",
+    "url": "https://your-git-server.com/worldcomputer/network-manager.git",
+    "revision": "v0.3.1"
+  },
+  "dependencies": [
+    "core-utils",
+    "libc"
+  ],
+  "build": {
+    "commands": [
+      "make"
+    ]
+  },
+  "install": {
+    "commands": [
+      "make DESTDIR=$DESTDIR install"
+    ]
+  },
+  "provides": ["/sbin/wcnetd", "/bin/wcnetctl"]
+}

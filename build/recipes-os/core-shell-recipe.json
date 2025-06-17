@@ -1,0 +1,31 @@
+{
+  "name": "core-shell",
+  "version": "0.1.0",
+  "description": "The main interactive shell for WorldComputer.",
+  "source": {
+    "type": "git",
+    "url": "https://your-git-server.com/worldcomputer/core-shell.git",
+    "revision": "v0.1.0"
+  },
+  "dependencies": [
+    "core-utils",
+    "readline"
+  ],
+  "build": {
+    "commands": [
+      "dub build --compiler=ldc2 -b release"
+    ],
+    "environment": {
+      "OPTIMIZATION": "-O2"
+    }
+  },
+  "install": {
+    "commands": [
+      "mkdir -p $DESTDIR/bin",
+      "cp ./build/core-shell $DESTDIR/bin/wcsh"
+    ]
+  },
+  "provides": [
+    "/bin/wcsh"
+  ]
+}
