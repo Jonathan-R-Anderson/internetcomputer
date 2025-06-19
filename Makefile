@@ -116,22 +116,29 @@ iso: $(ISO_FILE)
 	
 	# Rule to build the Gremlin Shell executable.
 	# This will build for your HOST system, not GremlinOS target yet.
-	$(GREMLIN_SHELL_EXE): fetch-shelly $(GREMLIN_SHELL_DIR)/GremlinShell.hs $(GREMLIN_SHELL_DIR)/gremlin-shell.cabal
-	@echo ">>> Building Gremlin Shell (requires GHC and Cabal)..."
-	@echo ">>> NOTE: This will build for your HOST system, not GremlinOS target yet."
-	@mkdir -p $(dir $@) # Ensure the output directory exists
-	cd $(GREMLIN_SHELL_DIR) && cabal update && cabal build --ghc-options="-static" # Attempt static linking using GHC options
-	# Find the built executable. Path might vary based on cabal version/setup.
-	# This is a common path pattern. Adjust if necessary.
-	@cp $(GREMLIN_SHELL_DIR)/dist-newstyle/build/*/*/gremlin-shell-*/x/gremlin-shell/build/gremlin-shell/gremlin-shell $@
-	@echo ">>> Gremlin Shell built to $@"
-	
-	$(GREMLIN_TERM_EXE): fetch-shelly $(GREMLIN_SHELL_DIR)/GraphicalTerminal.hs $(GREMLIN_SHELL_DIR)/gremlin-shell.cabal
-	@echo ">>> Building Gremlin Terminal (requires GHC and Cabal)..."
+$(GREMLIN_SHELL_EXE): $(GREMLIN_SHELL_DIR)/GremlinShell.hs $(GREMLIN_SHELL_DIR)/gremlin-shell.cabal
+	@echo ">>> Preparing Gremlin Shell executable..."
 	@mkdir -p $(dir $@)
-	cd $(GREMLIN_SHELL_DIR) && cabal update && cabal build gremlin-terminal --ghc-options="-static"
-	@cp $(GREMLIN_SHELL_DIR)/dist-newstyle/build/*/*/gremlin-shell-*/x/gremlin-terminal/build/gremlin-terminal/gremlin-terminal $@
-	@echo ">>> Gremlin Terminal built to $@"
+	@if command -v cabal >/dev/null 2>&1; then \
+echo ">>> Building via cabal"; \
+cd $(GREMLIN_SHELL_DIR) && cabal update && cabal build --ghc-options="-static"; \
+else \
+echo ">>> Cabal not found. Using prebuilt binary if available."; \
+fi
+	@cp $(GREMLIN_SHELL_DIR)/dist-newstyle/build/*/*/gremlin-shell-*/x/gremlin-shell/build/gremlin-shell/gremlin-shell $@ 2>/dev/null || { echo "Missing gremlin-shell binary"; exit 1; }
+	@echo ">>> Gremlin Shell ready at $@"
+	
+$(GREMLIN_TERM_EXE): $(GREMLIN_SHELL_DIR)/GraphicalTerminal.hs $(GREMLIN_SHELL_DIR)/gremlin-shell.cabal
+	@echo ">>> Preparing Gremlin Terminal executable..."
+	@mkdir -p $(dir $@)
+	@if command -v cabal >/dev/null 2>&1; then \
+        echo ">>> Building via cabal"; \
+        cd $(GREMLIN_SHELL_DIR) && cabal update && cabal build gremlin-terminal --ghc-options="-static"; \
+    else \
+        echo ">>> Cabal not found. Using prebuilt binary if available."; \
+    fi
+	@cp $(GREMLIN_SHELL_DIR)/dist-newstyle/build/*/*/gremlin-shell-*/x/gremlin-terminal/build/gremlin-terminal/gremlin-terminal $@ 2>/dev/null || { echo "Missing gremlin-terminal binary"; exit 1; }
+	@echo ">>> Gremlin Terminal ready at $@"
 	
 	$(ISO_FILE): $(KERNEL_BIN) $(GREMLIN_SHELL_EXE) $(GREMLIN_TERM_EXE)
 		@echo ">>> Creating ISO Image..."
