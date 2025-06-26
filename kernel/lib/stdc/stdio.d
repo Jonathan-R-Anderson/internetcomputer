@@ -15,6 +15,11 @@ struct FILE
     int fd;          // underlying file descriptor
 }
 
+// Constants for fseek/ftell
+enum SEEK_SET = 0;
+enum SEEK_CUR = 1;
+enum SEEK_END = 2;
+
 // ---------------------------------------------------------------------
 //  Linux syscall wrappers
 // ---------------------------------------------------------------------
@@ -210,4 +215,31 @@ char* fgets(char* s, int size, FILE* stream)
     if(i == 0) return null;
     s[i] = 0;
     return s;
+}
+
+// ---------------------------------------------------------------------
+//  fseek, ftell and rewind
+// ---------------------------------------------------------------------
+int fseek(FILE* stream, long offset, int whence)
+{
+    if(stream is null) return -1;
+    long res;
+    version(linux)  res = linux_syscall(SYS_LSEEK, stream.fd, offset, whence);
+    version(Plan9)  res = seek(stream.fd, offset, whence);
+    return res < 0 ? -1 : 0;
+}
+
+long ftell(FILE* stream)
+{
+    if(stream is null) return -1;
+    long pos;
+    version(linux)  pos = linux_syscall(SYS_LSEEK, stream.fd, 0, SEEK_CUR);
+    version(Plan9)  pos = seek(stream.fd, 0, SEEK_CUR);
+    return pos;
+}
+
+void rewind(FILE* stream)
+{
+    if(stream is null) return;
+    fseek(stream, 0, SEEK_SET);
 }
