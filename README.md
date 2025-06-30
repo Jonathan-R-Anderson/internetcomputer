@@ -21,7 +21,7 @@ anonymOS is an experimental microkernel operating system.  It draws inspiration 
 - **Lightweight hypervisor** allowing minimal virtual machines.
 - **Container images** built with Alpine Linux utilities.
 - **Object-based namespaces** expose managers like the scheduler and user manager through a unified object tree.
-- **TTY shell** built from the [\-sh](https://github.com/Jonathan-R-Anderson/-sh) project and fetched automatically during the build.
+- **TTY shell** built from the `modules/-sh` project and included in the ISO by default.
 ## Repository Modules
 
 Source code is organized in the `modules/` directory so each feature can be
@@ -56,13 +56,11 @@ compilation.
 ## Building
 
 Prerequisites include `grub-mkrescue`, `xorriso` and the `ldc2` D compiler.  Run
-`scripts/setup_dev_env.sh` first to fetch the POSIX wrappers and shell sources
-directly from their GitHub repositories:
+`scripts/setup_dev_env.sh` first to fetch the POSIX wrappers directly from its GitHub repository:
 
 - [anonymos-posix](https://github.com/Jonathan-R-Anderson/anonymos-posix)
-- [\-sh](https://github.com/Jonathan-R-Anderson/-sh)
 
-These external components are compiled inside anonymOS after boot.  Then build
+The `-sh` shell is now part of this repository under `modules/-sh` and is compiled during the ISO build.  Then build
 the system with:
 
 ```bash
@@ -76,10 +74,10 @@ manually, run `make run-debug` in one terminal and connect with GDB from another
 
 ## Shell Integration
 
-The build pulls the TTY shell from the external repository using
-`scripts/fetch_shell.sh`.  Only the sources are included in the ISO.  After
-booting anonymOS run the helper scripts under `/sys/init` to build the userland
-tools inside the guest:
+The TTY shell now lives under `modules/-sh` and is compiled automatically when
+building the ISO.  The resulting binary is available as `/bin/sh` inside the
+system.  If you wish to rebuild the shell from source after booting, the helper
+scripts under `/sys/init` can still be used:
 
 ```bash
 /sys/init/install_posix_in_os.sh
@@ -87,9 +85,8 @@ tools inside the guest:
 /sys/init/install_shell_in_os.sh
 ```
 
-This compiles the POSIX wrappers, rebuilds the D compiler and then builds the
-`-sh` shell using that compiler.  `scripts/check_shell_support.sh` can still
-verify that the kernel exposes the required terminal and keyboard drivers.  The
+`scripts/check_shell_support.sh` can verify that the kernel exposes the required
+terminal and keyboard drivers.  The
 shell's prompt dynamically displays the logged-in user, namespace, current
 directory and CPU privilege level using the format
 `user@namespace:/path(permission)`.
@@ -128,7 +125,8 @@ written back to `fs.img` so the state persists across reboots:
 │  ├─browser/v105.0
 │  └─editor/v3.1
 ├─bin
-├─third_party/{sh,dmd}
+├─modules/-sh
+├─third_party/dmd
 ├─users/
 │  ├─alice/{bin,cfg,doc,media,projects,vault}
 │  └─bob/{bin,cfg,doc,media,projects,vault}

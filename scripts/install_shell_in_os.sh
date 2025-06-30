@@ -3,7 +3,7 @@
 # This script is expected to run from within the installed system.
 set -e
 
-SRC_DIR="/third_party/sh"
+SRC_DIR="/modules/-sh"
 POSIX_DIR="/third_party/posix"
 DMD="/bin/dmd"
 POSIX_OBJ="/tmp/posix.o"

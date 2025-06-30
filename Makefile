@@ -106,9 +106,9 @@ ISO_BIN_DIR = $(ISO_DIR)/bin
 KERNEL_BIN = $(BUILD_DIR)/kernel.bin
 ISO_FILE = $(BUILD_DIR)/anonymOS.iso
 
-# Shell sources and target pulled from external repository
-SH_DIR = third_party/sh
-# All shell modules from the external -sh repository
+# Shell sources now come from the modules directory
+SH_DIR = modules/-sh
+# All shell modules from the -sh project
 SH_SOURCES = $(wildcard $(SH_DIR)/src/*.d)
 # Include paths so ldc2 can locate shell modules and the bundled mstd library
 SH_DFLAGS = -I$(SH_DIR) -I$(SH_DIR)/src
@@ -116,6 +116,7 @@ SH_DFLAGS = -I$(SH_DIR) -I$(SH_DIR)/src
 DMD_DIR = third_party/dmd
 DMD_SRC_DIR = third_party/dmd
 DMD_BIN = $(BUILD_DIR)/bin/dmd
+SHELL_BIN = $(BUILD_DIR)/bin/sh
 
 
 
@@ -139,12 +140,13 @@ iso: $(ISO_FILE)
 build: $(ISO_FILE)
 
 
-$(ISO_FILE): $(KERNEL_BIN) $(DMD_BIN) fetch_shell fetch_posix fetch_dmd fetch_modules
+$(ISO_FILE): $(KERNEL_BIN) $(DMD_BIN) $(SHELL_BIN) fetch_shell fetch_posix fetch_dmd fetch_modules
 	@echo ">>> Creating ISO Image..."
-	mkdir -p $(ISO_BOOT_DIR) $(ISO_GRUB_DIR) $(ISO_BIN_DIR) $(ISO_DIR)/third_party $(ISO_DIR)/sys/init
+	mkdir -p $(ISO_BOOT_DIR) $(ISO_GRUB_DIR) $(ISO_BIN_DIR) $(ISO_DIR)/third_party $(ISO_DIR)/modules $(ISO_DIR)/sys/init
 	cp $(KERNEL_BIN) $(ISO_BOOT_DIR)/
 	cp $(DMD_BIN) $(ISO_BIN_DIR)/
-	rsync -a --exclude='.git' third_party/sh/ $(ISO_DIR)/third_party/sh/
+	cp $(SHELL_BIN) $(ISO_BIN_DIR)/
+	rsync -a --exclude='.git' modules/-sh/ $(ISO_DIR)/modules/-sh/
 	rsync -a --exclude='.git' third_party/posix/ $(ISO_DIR)/third_party/posix/
 	rsync -a --exclude='.git' $(DMD_SRC_DIR)/ $(ISO_DIR)/third_party/dmd/
 	cp scripts/install_shell_in_os.sh $(ISO_DIR)/sys/init/
@@ -196,8 +198,16 @@ $(OBJ_DIR)/%.o: %.s
 	@mkdir -p $(dir $@)
 	$(AS) $(ASFLAGS) $< -o $@
 
+
+
 $(DMD_BIN): | $(BUILD_DIR)
 	./scripts/build_dmd.sh
+
+
+$(SHELL_BIN): $(SH_SOURCES) scripts/build_shell.sh | $(BUILD_DIR)
+	./scripts/build_shell.sh
+
+shell: $(SHELL_BIN)
 
 dmd: $(DMD_BIN)
 
