@@ -55,7 +55,14 @@ compilation.
 
 ## Building
 
-Prerequisites include `grub-mkrescue`, `xorriso` and the `ldc2` D compiler.  Run `scripts/setup_dev_env.sh` first to fetch the POSIX wrappers along with the `dmd` compiler and `-sh` shell sources.  These tools are compiled inside anonymOS after boot.  Then build the system with:
+Install `grub-mkrescue`, `xorriso` and the `ldc2` D compiler using your package
+manager.  Once these prerequisites are in place run
+`scripts/setup_dev_env.sh` to download the POSIX wrapper library, the DMD source
+code and the `-sh` shell.  The build system automatically produces a bootstrap
+`dmd` binary via `scripts/build_dmd.sh`.  This compiler relies on the POSIX
+wrappers for its system calls, so after booting anonymOS you must run
+`/sys/init/install_posix_in_os.sh` before rebuilding the full toolchain.  With
+everything fetched you can build the ISO image with:
 
 ```bash
 make build

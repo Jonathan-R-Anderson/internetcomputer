@@ -11,8 +11,21 @@ PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 
 DMD_DIR="$PROJECT_ROOT/third_party/dmd"
 BIN_DIR="$PROJECT_ROOT/build/bin"
+POSIX_DIR="$PROJECT_ROOT/third_party/posix"
 HOST_DMD=${HOST_DMD:-ldmd2}
 JOBS=${JOBS:-$(nproc)}
+
+# Ensure the host D compiler is available
+if ! command -v "$HOST_DMD" >/dev/null 2>&1; then
+    echo "Host D compiler '$HOST_DMD' not found. Install ldc2 or set HOST_DMD." >&2
+    exit 1
+fi
+
+# Ensure the POSIX wrappers are present since the compiler depends on them
+if [ ! -d "$POSIX_DIR" ]; then
+    echo "POSIX wrappers missing at $POSIX_DIR. Run scripts/fetch_posix.sh first." >&2
+    exit 1
+fi
 
 # Fetch the dmd sources if they are missing
 if [ ! -d "$DMD_DIR/.git" ]; then
