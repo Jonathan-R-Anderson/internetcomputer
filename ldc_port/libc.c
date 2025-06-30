@@ -44,3 +44,70 @@ void *sbrk(ptrdiff_t increment) {
     heap_end += increment;
     return prev;
 }
+
+/* additional wrappers required for running a full D compiler */
+
+typedef struct {
+    int   kind;
+    size_t size;
+} ic_stat;
+
+long lseek(int fd, long offset, int whence) {
+    return ic_syscall(6, fd, offset, whence, 0, 0);
+}
+
+int unlink(const char *path) {
+    return ic_syscall(14, (long)path, 0, 0, 0, 0);
+}
+
+int stat(const char *path, ic_stat *st) {
+    return ic_syscall(10, (long)path, (long)st, 0, 0, 0);
+}
+
+int fstat(int fd, ic_stat *st) {
+    return ic_syscall(11, fd, (long)st, 0, 0, 0);
+}
+
+int dup(int fd) {
+    return ic_syscall(8, fd, -1, 0, 0, 0);
+}
+
+int dup2(int oldfd, int newfd) {
+    return ic_syscall(8, oldfd, newfd, 0, 0, 0);
+}
+
+int pipe(int fds[2]) {
+    return ic_syscall(25, (long)fds, 0, 0, 0, 0);
+}
+
+int fork(void) {
+    return ic_syscall(19, 1, 0, 0, 0, 0);
+}
+
+int execve(const char *path, char *const argv[], char *const envp[]) {
+    (void)envp; /* environment currently ignored */
+    return ic_syscall(20, (long)path, (long)argv, 0, 0, 0);
+}
+
+int waitpid(int pid, int *status, int options) {
+    (void)pid; (void)status; (void)options;
+    return ic_syscall(24, 0, 0, 0, 0, 0);
+}
+
+long brk(void *addr) {
+    return ic_syscall(29, (long)addr, 0, 0, 0, 0);
+}
+
+int getpid(void) {
+    /* kernel lacks a getpid syscall; return a constant */
+    return 1;
+}
+
+char *getcwd(char *buf, size_t size) {
+    if (size == 0)
+        return 0;
+    buf[0] = '/';
+    if (size > 1)
+        buf[1] = '\0';
+    return buf;
+}
