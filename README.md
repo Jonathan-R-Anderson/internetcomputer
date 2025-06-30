@@ -170,7 +170,7 @@ the [`-sh` README](https://github.com/Jonathan-R-Anderson/-sh).
 
 ## LDC Cross-Compilation
 
-The `ldc_port` directory provides minimal pieces for bootstrapping LDC on the Internet Computer OS. It includes `libc.c`, `ic.ld`, a `druntime.patch` and a `ldc_ic.cmake` snippet to configure a custom target triple.
+The `ldc_port` directory provides minimal pieces for bootstrapping LDC on the Internet Computer OS. It includes `libc.c`, `ic.ld`, a `druntime.patch` and a `ldc_ic.cmake` snippet to configure a custom target triple.  The libc now exposes additional syscall wrappers (e.g. `lseek`, `stat`, `dup`, `pipe`, `fork`, `execve`) so that complex tools like DMD can run inside the OS once compiled.
 
 ## License
 
