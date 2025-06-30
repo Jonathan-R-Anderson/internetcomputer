@@ -173,11 +173,15 @@ private void setup_first_user()
 extern(C) void shMain()
 {
     import kernel.process_manager : get_current_pid, process_exit;
+    import kernel.logger : log_message;
 
+    log_message("[shMain] starting\n");
     terminal_writestring("Welcome to -sh shell.\r\n");
     setup_first_user();
+    log_message("[shMain] user setup complete\n");
 
     terminal_writestring("Initialization complete. Starting shell...\r\n");
+    log_message("[shMain] entering interactive loop\n");
     shInteractive();
 }
 
@@ -347,17 +351,21 @@ extern(C) void sh_shell()
 
     // After build_shell() the compiled binary should reside at /bin/sh
     void* entry = null;
-    if(load_elf("/bin/sh", &entry) == 0 && entry !is null)
+    log_message("[sh_shell] attempting to load /bin/sh\n");
+    auto res = load_elf("/bin/sh", &entry);
+    if(res == 0 && entry !is null)
     {
-        log_message("Launching compiled shell\n");
+        log_message("[sh_shell] launching compiled shell\n");
         auto pid = process_create(cast(EntryFunc)entry);
         scheduler_run();
+        log_message("[sh_shell] compiled shell returned\n");
     }
     else
     {
-        log_message("Compiled shell missing, falling back to stub\n");
+        log_message("[sh_shell] compiled shell missing, falling back to stub\n");
         // Invoke the stub shell implementation.
         shMain();
+        log_message("[sh_shell] stub shell returned\n");
     }
 }
 
