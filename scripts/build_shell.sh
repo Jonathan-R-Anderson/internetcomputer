@@ -1,12 +1,12 @@
 #!/bin/sh
 # Build the -sh shell for anonymOS using the cross compiler.
-# This compiles the shell sources from third_party/sh into a
+# This compiles the shell sources from modules/-sh into a
 # static binary placed under build/bin/sh so it can be copied
 # to the ISO at /bin/sh.
 set -e
 SCRIPT_DIR="$(dirname "$0")"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
-SH_DIR="$PROJECT_ROOT/third_party/sh"
+SH_DIR="$PROJECT_ROOT/modules/-sh"
 POSIX_DIR="$PROJECT_ROOT/third_party/posix"
 STUB="$PROJECT_ROOT/third_party/stub_shell.d"
 OUT_DIR="$PROJECT_ROOT/build/bin"
@@ -23,8 +23,8 @@ fi
 
 # Ensure sources are present
 if [ ! -d "$SH_DIR" ]; then
-    echo "Shell sources not found in $SH_DIR, fetching..." >&2
-    "$SCRIPT_DIR/fetch_shell.sh"
+    echo "Shell sources not found in $SH_DIR" >&2
+    exit 1
 fi
 
 mkdir -p "$OUT_DIR"
