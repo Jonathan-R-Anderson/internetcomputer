@@ -1,0 +1,222 @@
+ldc2                  -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64 -I. -Ikernel -Ikernel/kernel -Ikernel/kernel/include -Ihypervisor -Iobject-tree -c kernel/lib/string.d -of=build/obj/kernel/lib/string.o
+ldc2                  -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64 -I. -Ikernel -Ikernel/kernel -Ikernel/kernel/include -Ihypervisor -Iobject-tree -c kernel/kernel/process_manager.d -of=build/obj/kernel/kernel/process_manager.o
+ldc2                  -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64 -I. -Ikernel -Ikernel/kernel -Ikernel/kernel/include -Ihypervisor -Iobject-tree -c kernel/kernel/fs_embedded.d -of=build/obj/kernel/kernel/fs_embedded.o
+ldc2                  -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64 -I. -Ikernel -Ikernel/kernel -Ikernel/kernel/include -Ihypervisor -Iobject-tree -c kernel/kernel/device/pic.d -of=build/obj/kernel/kernel/device/pic.o
+ldc2                  -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64 -I. -Ikernel -Ikernel/kernel -Ikernel/kernel/include -Ihypervisor -Iobject-tree -c kernel/kernel/device/vga.d -of=build/obj/kernel/kernel/device/vga.o
+ldc2                  -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64 -I. -Ikernel -Ikernel/kernel -Ikernel/kernel/include -Ihypervisor -Iobject-tree -c kernel/kernel/lib/stdc/config.d -of=build/obj/kernel/kernel/lib/stdc/config.o
+ldc2                  -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64 -I. -Ikernel -Ikernel/kernel -Ikernel/kernel/include -Ihypervisor -Iobject-tree -c kernel/kernel/lib/stdc/wchar_.d -of=build/obj/kernel/kernel/lib/stdc/wchar_.o
+ldc2                  -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64 -I. -Ikernel -Ikernel/kernel -Ikernel/kernel/include -Ihypervisor -Iobject-tree -c kernel/kernel/lib/stdc/stdio.d -of=build/obj/kernel/kernel/lib/stdc/stdio.o
+ldc2                  -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64 -I. -Ikernel -Ikernel/kernel -Ikernel/kernel/include -Ihypervisor -Iobject-tree -c kernel/kernel/lib/stdc/stdlib.d -of=build/obj/kernel/kernel/lib/stdc/stdlib.o
+ldc2                  -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64 -I. -Ikernel -Ikernel/kernel -Ikernel/kernel/include -Ihypervisor -Iobject-tree -c kernel/kernel/lib/stdc/stdint.d -of=build/obj/kernel/kernel/lib/stdc/stdint.o
+ldc2                  -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64 -I. -Ikernel -Ikernel/kernel -Ikernel/kernel/include -Ihypervisor -Iobject-tree -c kernel/kernel/lib/stdc/time.d -of=build/obj/kernel/kernel/lib/stdc/time.o
+ldc2                  -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64 -I. -Ikernel -Ikernel/kernel -Ikernel/kernel/include -Ihypervisor -Iobject-tree -c kernel/kernel/lib/posix_stubs.d -of=build/obj/kernel/kernel/lib/posix_stubs.o
+ldc2                  -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64 -I. -Ikernel -Ikernel/kernel -Ikernel/kernel/include -Ihypervisor -Iobject-tree -c kernel/kernel/memory/virtmem.d -of=build/obj/kernel/kernel/memory/virtmem.o
+ldc2                  -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64 -I. -Ikernel -Ikernel/kernel -Ikernel/kernel/include -Ihypervisor -Iobject-tree -c kernel/kernel/user_manager.d -of=build/obj/kernel/kernel/user_manager.o
+ldc2                  -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64 -I. -Ikernel -Ikernel/kernel -Ikernel/kernel/include -Ihypervisor -Iobject-tree -c kernel/kernel/keyboard.d -of=build/obj/kernel/kernel/keyboard.o
+ldc2                  -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64 -I. -Ikernel -Ikernel/kernel -Ikernel/kernel/include -Ihypervisor -Iobject-tree -c kernel/kernel/login.d -of=build/obj/kernel/kernel/login.o
+ldc2                  -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64 -I. -Ikernel -Ikernel/kernel -Ikernel/kernel/include -Ihypervisor -Iobject-tree -c kernel/kernel/terminal.d -of=build/obj/kernel/kernel/terminal.o
+ldc2                  -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64 -I. -Ikernel -Ikernel/kernel -Ikernel/kernel/include -Ihypervisor -Iobject-tree -c kernel/kernel/hardware/network.d -of=build/obj/kernel/kernel/hardware/network.o
+ldc2                  -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64 -I. -Ikernel -Ikernel/kernel -Ikernel/kernel/include -Ihypervisor -Iobject-tree -c kernel/kernel/sync.d -of=build/obj/kernel/kernel/sync.o
+ldc2                  -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64 -I. -Ikernel -Ikernel/kernel -Ikernel/kernel/include -Ihypervisor -Iobject-tree -c kernel/kernel/net/arp.d -of=build/obj/kernel/kernel/net/arp.o
+ldc2                  -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64 -I. -Ikernel -Ikernel/kernel -Ikernel/kernel/include -Ihypervisor -Iobject-tree -c kernel/kernel/net/checksum.d -of=build/obj/kernel/kernel/net/checksum.o
+ldc2                  -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64 -I. -Ikernel -Ikernel/kernel -Ikernel/kernel/include -Ihypervisor -Iobject-tree -c kernel/kernel/net/udp.d -of=build/obj/kernel/kernel/net/udp.o
+ldc2                  -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64 -I. -Ikernel -Ikernel/kernel -Ikernel/kernel/include -Ihypervisor -Iobject-tree -c kernel/kernel/net/stack.d -of=build/obj/kernel/kernel/net/stack.o
+ldc2                  -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64 -I. -Ikernel -Ikernel/kernel -Ikernel/kernel/include -Ihypervisor -Iobject-tree -c kernel/kernel/net/common.d -of=build/obj/kernel/kernel/net/common.o
+ldc2                  -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64 -I. -Ikernel -Ikernel/kernel -Ikernel/kernel/include -Ihypervisor -Iobject-tree -c kernel/kernel/net/ethernet.d -of=build/obj/kernel/kernel/net/ethernet.o
+ldc2                  -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64 -I. -Ikernel -Ikernel/kernel -Ikernel/kernel/include -Ihypervisor -Iobject-tree -c kernel/kernel/net/ip.d -of=build/obj/kernel/kernel/net/ip.o
+ldc2                  -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64 -I. -Ikernel -Ikernel/kernel -Ikernel/kernel/include -Ihypervisor -Iobject-tree -c kernel/kernel/arch_interface/idt.d -of=build/obj/kernel/kernel/arch_interface/idt.o
+GdtPtr.sizeof = 10LU
+IDTPtr.sizeof = 10LU
+ldc2                  -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64 -I. -Ikernel -Ikernel/kernel -Ikernel/kernel/include -Ihypervisor -Iobject-tree -c kernel/kernel/arch_interface/ports.d -of=build/obj/kernel/kernel/arch_interface/ports.o
+ldc2                  -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64 -I. -Ikernel -Ikernel/kernel -Ikernel/kernel/include -Ihypervisor -Iobject-tree -c kernel/kernel/arch_interface/gdt.d -of=build/obj/kernel/kernel/arch_interface/gdt.o
+GdtPtr.sizeof = 10LU
+ldc2                  -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64 -I. -Ikernel -Ikernel/kernel -Ikernel/kernel/include -Ihypervisor -Iobject-tree -c kernel/kernel/interrupts.d -of=build/obj/kernel/kernel/interrupts.o
+ldc2                  -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64 -I. -Ikernel -Ikernel/kernel -Ikernel/kernel/include -Ihypervisor -Iobject-tree -c kernel/kernel/sanity.d -of=build/obj/kernel/kernel/sanity.o
+ldc2                  -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64 -I. -Ikernel -Ikernel/kernel -Ikernel/kernel/include -Ihypervisor -Iobject-tree -c kernel/kernel/elf_loader.d -of=build/obj/kernel/kernel/elf_loader.o
+ldc2                  -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64 -I. -Ikernel -Ikernel/kernel -Ikernel/kernel/include -Ihypervisor -Iobject-tree -c kernel/kernel/syscall.d -of=build/obj/kernel/kernel/syscall.o
+ldc2                  -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64 -I. -Ikernel -Ikernel/kernel -Ikernel/kernel/include -Ihypervisor -Iobject-tree -c kernel/kernel/shell.d -of=build/obj/kernel/kernel/shell.o
+ldc2                  -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64 -I. -Ikernel -Ikernel/kernel -Ikernel/kernel/include -Ihypervisor -Iobject-tree -c kernel/kernel/container_service.d -of=build/obj/kernel/kernel/container_service.o
+ldc2                  -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64 -I. -Ikernel -Ikernel/kernel -Ikernel/kernel/include -Ihypervisor -Iobject-tree -c kernel/kernel/core/main.d -of=build/obj/kernel/kernel/core/main.o
+GdtPtr.sizeof = 10LU
+IDTPtr.sizeof = 10LU
+ldc2                  -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64 -I. -Ikernel -Ikernel/kernel -Ikernel/kernel/include -Ihypervisor -Iobject-tree -c kernel/kernel/core/init_stubs.d -of=build/obj/kernel/kernel/core/init_stubs.o
+ldc2                  -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64 -I. -Ikernel -Ikernel/kernel -Ikernel/kernel/include -Ihypervisor -Iobject-tree -c kernel/kernel/serial.d -of=build/obj/kernel/kernel/serial.o
+ldc2                  -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64 -I. -Ikernel -Ikernel/kernel -Ikernel/kernel/include -Ihypervisor -Iobject-tree -c kernel/kernel/include/kernel/panic.d -of=build/obj/kernel/kernel/include/kernel/panic.o
+ldc2                  -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64 -I. -Ikernel -Ikernel/kernel -Ikernel/kernel/include -Ihypervisor -Iobject-tree -c kernel/kernel/include/kernel/io.d -of=build/obj/kernel/kernel/include/kernel/io.o
+ldc2                  -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64 -I. -Ikernel -Ikernel/kernel -Ikernel/kernel/include -Ihypervisor -Iobject-tree -c kernel/kernel/include/kernel/types.d -of=build/obj/kernel/kernel/include/kernel/types.o
+ldc2                  -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64 -I. -Ikernel -Ikernel/kernel -Ikernel/kernel/include -Ihypervisor -Iobject-tree -c kernel/kernel/utils/ansi_art.d -of=build/obj/kernel/kernel/utils/ansi_art.o
+ldc2                  -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64 -I. -Ikernel -Ikernel/kernel -Ikernel/kernel/include -Ihypervisor -Iobject-tree -c kernel/kernel/ipc/secure_ipc.d -of=build/obj/kernel/kernel/ipc/secure_ipc.o
+ldc2                  -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64 -I. -Ikernel -Ikernel/kernel -Ikernel/kernel/include -Ihypervisor -Iobject-tree -c kernel/kernel/thread.d -of=build/obj/kernel/kernel/thread.o
+ldc2                  -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64 -I. -Ikernel -Ikernel/kernel -Ikernel/kernel/include -Ihypervisor -Iobject-tree -c kernel/kernel/logger.d -of=build/obj/kernel/kernel/logger.o
+ldc2                  -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64 -I. -Ikernel -Ikernel/kernel -Ikernel/kernel/include -Ihypervisor -Iobject-tree -c kernel/kernel/fs.d -of=build/obj/kernel/kernel/fs.o
+ldc2                  -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64 -I. -Ikernel -Ikernel/kernel -Ikernel/kernel/include -Ihypervisor -Iobject-tree -c hypervisor/kernel/hypervisor.d -of=build/obj/hypervisor/kernel/hypervisor.o
+ldc2                  -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64 -I. -Ikernel -Ikernel/kernel -Ikernel/kernel/include -Ihypervisor -Iobject-tree -c object-tree/kernel/object_namespace.d -of=build/obj/object-tree/kernel/object_namespace.o
+ldc2                  -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64 -I. -Ikernel -Ikernel/kernel -Ikernel/kernel/include -Ihypervisor -Iobject-tree -c object-tree/kernel/object_validator.d -of=build/obj/object-tree/kernel/object_validator.o
+as --64 kernel/arch/x86/cpu/gdt.s -o build/obj/kernel/arch/x86/cpu/gdt.o
+kernel/arch/x86/cpu/gdt.s: Assembler messages:
+kernel/arch/x86/cpu/gdt.s:37: Warning: mnemonic suffix used with `lret'
+kernel/arch/x86/cpu/gdt.s:37: Warning: NOTE: Such forms are deprecated and will be rejected by a future version of the assembler
+as --64 kernel/arch/x86/cpu/idt_loader.s -o build/obj/kernel/arch/x86/cpu/idt_loader.o
+as --64 kernel/arch/x86/cpu/ports.s -o build/obj/kernel/arch/x86/cpu/ports.o
+as --64 kernel/arch/x86/cpu/interrupts_asm.s -o build/obj/kernel/arch/x86/cpu/interrupts_asm.o
+as --64 kernel/arch/x86/cpu/keyboard_handler_asm.s -o build/obj/kernel/arch/x86/cpu/keyboard_handler_asm.o
+as --64 kernel/arch/x86/cpu/tss.s -o build/obj/kernel/arch/x86/cpu/tss.o
+as --64 kernel/arch/x86/cpu/thread_switch.s -o build/obj/kernel/arch/x86/cpu/thread_switch.o
+as --64 kernel/arch/x86/cpu/syscall_stub.s -o build/obj/kernel/arch/x86/cpu/syscall_stub.o
+kernel/arch/x86/cpu/syscall_stub.s: Assembler messages:
+kernel/arch/x86/cpu/syscall_stub.s:22: Warning: end of file not at end of a line; newline inserted
+as --64 kernel/arch/x86/interrupt_stubs.s -o build/obj/kernel/arch/x86/interrupt_stubs.o
+as --64 kernel/arch/x86/boot/boot.s -o build/obj/kernel/arch/x86/boot/boot.o
+as --64 kernel/kernel/utils/debug_asm.s -o build/obj/kernel/kernel/utils/debug_asm.o
+make: Circular all <- build/anonymOS.iso dependency dropped.
+ld -nostdlib -no-pie -T kernel/arch/x86/linker.ld -o build/kernel.bin build/obj/kernel/lib/string.o build/obj/kernel/kernel/process_manager.o build/obj/kernel/kernel/fs_embedded.o build/obj/kernel/kernel/device/pic.o build/obj/kernel/kernel/device/vga.o build/obj/kernel/kernel/lib/stdc/config.o build/obj/kernel/kernel/lib/stdc/wchar_.o build/obj/kernel/kernel/lib/stdc/stdio.o build/obj/kernel/kernel/lib/stdc/stdlib.o build/obj/kernel/kernel/lib/stdc/stdint.o build/obj/kernel/kernel/lib/stdc/time.o build/obj/kernel/kernel/lib/posix_stubs.o build/obj/kernel/kernel/memory/virtmem.o build/obj/kernel/kernel/user_manager.o build/obj/kernel/kernel/keyboard.o build/obj/kernel/kernel/login.o build/obj/kernel/kernel/terminal.o build/obj/kernel/kernel/hardware/network.o build/obj/kernel/kernel/sync.o build/obj/kernel/kernel/net/arp.o build/obj/kernel/kernel/net/checksum.o build/obj/kernel/kernel/net/udp.o build/obj/kernel/kernel/net/stack.o build/obj/kernel/kernel/net/common.o build/obj/kernel/kernel/net/ethernet.o build/obj/kernel/kernel/net/ip.o build/obj/kernel/kernel/arch_interface/idt.o build/obj/kernel/kernel/arch_interface/ports.o build/obj/kernel/kernel/arch_interface/gdt.o build/obj/kernel/kernel/interrupts.o build/obj/kernel/kernel/sanity.o build/obj/kernel/kernel/elf_loader.o build/obj/kernel/kernel/syscall.o build/obj/kernel/kernel/shell.o build/obj/kernel/kernel/container_service.o build/obj/kernel/kernel/core/main.o build/obj/kernel/kernel/core/init_stubs.o build/obj/kernel/kernel/serial.o build/obj/kernel/kernel/include/kernel/panic.o build/obj/kernel/kernel/include/kernel/io.o build/obj/kernel/kernel/include/kernel/types.o build/obj/kernel/kernel/utils/ansi_art.o build/obj/kernel/kernel/ipc/secure_ipc.o build/obj/kernel/kernel/thread.o build/obj/kernel/kernel/logger.o build/obj/kernel/kernel/fs.o build/obj/hypervisor/kernel/hypervisor.o build/obj/object-tree/kernel/object_namespace.o build/obj/object-tree/kernel/object_validator.o build/obj/kernel/arch/x86/cpu/gdt.o build/obj/kernel/arch/x86/cpu/idt_loader.o build/obj/kernel/arch/x86/cpu/ports.o build/obj/kernel/arch/x86/cpu/interrupts_asm.o build/obj/kernel/arch/x86/cpu/keyboard_handler_asm.o build/obj/kernel/arch/x86/cpu/tss.o build/obj/kernel/arch/x86/cpu/thread_switch.o build/obj/kernel/arch/x86/cpu/syscall_stub.o build/obj/kernel/arch/x86/interrupt_stubs.o build/obj/kernel/arch/x86/boot/boot.o build/obj/kernel/kernel/utils/debug_asm.o
+ld: warning: build/obj/kernel/arch/x86/interrupt_stubs.o: missing .note.GNU-stack section implies executable stack
+ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
+hello user binary -> /home/ubuntu/Code/internetcomputer_backup/build/bin/hello
+filesystem image written to scripts/../build/fs.img
+>>> Creating ISO image
+mkdir -p build/iso/boot/grub build/iso/bin
+cp build/kernel.bin build/iso/boot
+cp build/fs.img     build/iso
+# Minimal grub.cfg
+printf '%s\n' \
+  'set timeout=0' \
+  'set default=0' \
+  '' \
+  'menuentry "anonymOS" {' \
+  '  multiboot2 /boot/kernel.bin' \
+  '  boot' \
+  '}' > build/iso/boot/grub/grub.cfg
+grub-mkrescue -o build/anonymOS.iso build/iso
+xorriso 1.5.6 : RockRidge filesystem manipulator, libburnia project.
+
+Drive current: -outdev 'stdio:build/anonymOS.iso'
+Media current: stdio file, overwriteable
+Media status : is blank
+Media summary: 0 sessions, 0 data blocks, 0 data,  758g free
+Added to ISO image: directory '/'='/tmp/grub.UXyTV2'
+xorriso : UPDATE :     336 files added in 1 seconds
+Added to ISO image: directory '/'='/home/ubuntu/Code/internetcomputer_backup/build/iso'
+xorriso : UPDATE :     342 files added in 1 seconds
+xorriso : NOTE : Copying to System Area: 512 bytes from file '/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/boot_hybrid.img'
+ISO image produced: 5437 sectors
+Written to medium : 5437 sectors at LBA 0
+Writing to 'stdio:build/anonymOS.iso' completed successfully.
+
+qemu-system-x86_64 -cdrom build/anonymOS.iso -m 512M -serial stdio -display none \
+   -d int,guest_errors,cpu_reset -D qemu.log \
+   -monitor none -M smm=off -no-reboot
+anonymOS booting...
+Initializing GDT...
+  GDT Entry Size: 0x8
+  Num GDT Entries: 0x7
+  Total GDT Size: 0x38
+  Calculated GDT Limit: 0x37
+set gdt entry
+kernel code segment
+kernel data segment
+user code segment
+user data segment
+task segment descriptor
+  GDT Ptr Limit: 0x37
+  GDT Ptr Base: 0x532350
+  &gdt_entries[0] = 0x532350
+  &gdt_ptr = 0x532388
+Flushing GDT...
+GDT flushed.
+GDT base: 0x0000000000532350
+After GDT Setup
+ RAX=0x000000000000000A RBX=0x00000000005801B0 RCX=0x0000000000121F30 RDX=0x00000000000003F8
+ RSI=0x000000000000000A RDI=0x00000000000003F8 RBP=0x000000000000000A RSP=0x0000000000539A60
+ R8=0x00000000000000A0 R9=0x00000000000B8F00 R10=0x0000000000000000 R11=0x0000000000000000
+ R12=0x000000000000000A R13=0x0000000000535950 R14=0x0000000000121F30 R15=0x00000000005801B0
+Calling remap_pic()
+Initializing IDT...
+IDTPtr.sizeof=0x000000000000000A
+&idt_ptr=0x0000000000532340
+idt_ptr.base=0x0000000000531340 limit=0x0000000000000FFF
+IDT base loaded: 0x0000000000531340
+IDT loaded.
+IDT ptr base after init: 0x0000000000531340
+Hello from logger!
+Address of logBuffer: 
+anonymOS: Core Arch & Terminal Initialized.
+Boot info ptr: 0x00000000005801B0
+0x00000000005801B0: E0 05 00 00 00 00 00 00 15 00 00 00 0C 00 00 00
+0x00000000005801C0: 00 00 10 00 00 00 00 00 01 00 00 00 09 00 00 00
+0x00000000005801D0: 00 00 00 00 00 00 00 00 02 00 00 00 12 00 00 00
+0x00000000005801E0: 47 52 55 42 20 32 2E 31 32 00 00 00 00 00 00 00
+Initial Registers
+ RAX=0x000000000000000A RBX=0x00000000005801B0 RCX=0x0000000000121F30 RDX=0x00000000000003F8
+ RSI=0x000000000000000A RDI=0x00000000000003F8 RBP=0x000000000000000A RSP=0x0000000000539A60
+ R8=0x00000000000B8F00 R9=0x00000000000B8F00 R10=0x0000000000000000 R11=0x0000000000000000
+ R12=0x000000000000000A R13=0x0000000000535950 R14=0x0000000000121F30 R15=0x00000000005801B0
+Initializing CPU features & early hardware...
+Initializing CPU features...
+Initializing Memory Management (Frames, Paging, Heap)...
+Initializing memory management...
+After Memory Init
+ RAX=0x000000000000000A RBX=0x00000000005801B0 RCX=0x0000000000121F30 RDX=0x00000000000003F8
+ RSI=0x000000000000000A RDI=0x00000000000003F8 RBP=0x000000000000000A RSP=0x0000000000539A60
+ R8=0x00000000000B8F00 R9=0x00000000000B8F00 R10=0x0000000000000000 R11=0x0000000000000000
+ R12=0x000000000000000A R13=0x0000000000535950 R14=0x0000000000121F30 R15=0x00000000005801B0
+First 64 bytes of boot info:
+0x00000000005801B0: E0 05 00 00 00 00 00 00 15 00 00 00 0C 00 00 00
+0x00000000005801C0: 00 00 10 00 00 00 00 00 01 00 00 00 09 00 00 00
+0x00000000005801D0: 00 00 00 00 00 00 00 00 02 00 00 00 12 00 00 00
+0x00000000005801E0: 47 52 55 42 20 32 2E 31 32 00 00 00 00 00 00 00
+Initializing Core OS Managers...
+Setting up core managers...
+Initializing remaining Drivers & Kernel Services...
+Starting drivers and services...
+scheduler_init
+Kernel container service initialized.
+Initializing Filesystem (e.g., initrd)...
+Mounting filesystem...
+Filesystem initialized
+Temporary user 'setup' created for initial account setup.
+All subsystems (stubs) initialized. Launching built-in shell early.
+Failed to load /bin/sh, falling back to built-in shell.
+*** STACK ALLOCATED for process 0x0000000000000000 size=0x0000000000040000 addr=0x000000000012A4B0 ***
+*** RUNNING process 0x0000000000000000 ***
+=== anonymOS Mega Shell ===
+Comprehensive shell with 103 built-in commands!
+Type 'help' to see all available commands.
+
+root@anonymOS:~ $ help
+=== anonymOS Comprehensive Shell ===
+
+File System Commands:
+ls, pwd, cd, mkdir, rmdir, rm, cp, mv, cat, ln, find, locate, which, file, stat
+
+Text Processing:
+echo, printf, grep, sed, awk, sort, uniq, cut, head, tail, wc, tr, less, more
+
+System Information:
+uname, whoami, id, uptime, date, hostname, arch, env, set, export
+
+Process Management:
+ps, kill, killall, jobs, bg, fg, nohup, top, htop
+
+System Monitoring:
+free, df, du, vmstat, iostat, lscpu, lsmod, lsof, lspci, lsusb, dmesg
+
+Network Commands:
+ping, wget, curl, netstat, ifconfig, ssh, scp, rsync
+
+Development Tools:
+gcc, gdb, make, git, vim, nano, emacs, python, node, ruby, perl, php, java
+
+Shell Built-ins:
+help, clear, exit, history, alias, type
+
+This kernel shell includes 100+ commands! Most show '(not implemented)' as placeholders.
+root@anonymOS:~ $ free -m
+Memory usage:
+             total       used       free
+Mem:       1048576     524288     524288
+root@anonymOS:~ $ free
+Memory usage:
+             total       used       free
+Mem:       1048576     524288     524288
+root@anonymOS:~ $ 
