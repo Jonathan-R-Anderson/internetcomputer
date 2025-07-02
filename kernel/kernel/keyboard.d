@@ -32,18 +32,31 @@ __gshared bool serial_input_mode = false; // prefer serial once we detect it
 char keyboard_getchar()
 {
     import kernel.arch_interface.ports : inb, outb;
-    // Always poll for input to avoid freezing when interrupts are not
-    // delivered (e.g., when running under `qemu -serial stdio` where PS/2
-    // IRQ1 might be disabled and serial IRQs are not enabled). We still give
-    // priority to any characters already queued by the interrupt handler.
+    uint timeout_counter = 0;
+    const uint MAX_TIMEOUT = 1000; // Much shorter timeout before fallback
+    
+    // Quick check if there's already data from interrupts
+    if (input_head != input_tail) {
+        char c = input_buffer[input_tail];
+        input_tail = (input_tail + 1) % INPUT_BUF_SIZE;
+        return c;
+    }
+    
+    // Try waiting for interrupts briefly
+    while (input_head == input_tail && timeout_counter < MAX_TIMEOUT) {
+        timeout_counter++;
+        asm { "hlt"; }
+    }
+    
+    // If we got input from interrupts, return it
+    if (input_head != input_tail) {
+        char c = input_buffer[input_tail];
+        input_tail = (input_tail + 1) % INPUT_BUF_SIZE;
+        return c;
+    }
+    
+    // Fall back to polling mode
     while (true) {
-        // First consume any key that the IRQ handler might have queued.
-        if (input_head != input_tail) {
-            char queued = input_buffer[input_tail];
-            input_tail = (input_tail + 1) % INPUT_BUF_SIZE;
-            return queued;
-        }
-
         // --- Check serial port first so headless/stdio input works ---
         ubyte lsr = inb(SERIAL_PORT + 5); // Line Status Register
         if (lsr & 0x01) { // Data Ready

@@ -55,6 +55,9 @@ extern(C) size_t process_create_with_parent(EntryFunc entry, size_t parent)
     if(g_process_count >= g_processes.length)
         return size_t.max;
     size_t pid = g_process_count;
+
+    if(parent >= g_process_count)
+        parent = size_t.max;
     
     size_t stack_size = DEFAULT_STACK_SIZE;
     ubyte* user_stack = cast(ubyte*)malloc(stack_size);
@@ -90,25 +93,72 @@ extern(C) size_t process_create(EntryFunc entry)
     return process_create_with_parent(entry, size_t.max);
 }
 
+private size_t alignDown(size_t value, size_t alignment)
+{
+    return value & ~(alignment - 1);
+}
+
 extern(C) void scheduler_run()
 {
-    foreach(ref p; g_processes[0 .. g_process_count])
+    // A simple, cooperative, run-to-completion scheduler.
+    // It finds the first runnable process and gives it control.
+    // If that process exits, the scheduler might be called again
+    // to run the next process.
+    while (true)
     {
-        if(p.entry !is null && !p.started && !p.exited)
+        int target_pid = -1;
+
+        // Find the first process that hasn't started yet.
+        foreach(i, ref p; g_processes[0 .. g_process_count])
         {
-            p.started = true;
-            log_message("*** RUNNING process ");
-            log_hex(p.pid);
-            log_message(" with ALLOCATED STACK at ");
-            log_hex(cast(ulong)p.user_stack);
-            log_message(" entry=");
-            log_hex(cast(ulong)p.entry);
-            log_message(" ***\n");
-            current_pid = p.pid;
-            
-            p.entry();
-            
-            current_pid = size_t.max;
+            if(!p.started && !p.exited && p.entry !is null)
+            {
+                target_pid = cast(int)i;
+                break;
+            }
+        }
+
+        if (target_pid == -1)
+        {
+            // No new processes to run. We can idle or exit.
+            // For an interactive shell, we just want to keep polling.
+            asm { "pause"; } // Use pause to spin without hlt
+            continue;
+        }
+
+        // We have a process to run.
+        Process* p = &g_processes[target_pid];
+        p.started = true;
+
+        log_message("*** RUNNING process ");
+        log_hex(p.pid);
+        log_message(" ***\n");
+
+        // --- Stack switch and execute ---
+        size_t originalRsp;
+        size_t newRsp = alignDown(cast(size_t)p.user_stack + p.stack_size, 16);
+        
+        version(X86_64) {
+            asm {
+                "mov %%rsp, %0" : "=r"(originalRsp);
+                "mov %0, %%rsp" : : "r"(newRsp);
+            }
+        }
+
+        current_pid = p.pid;
+        p.entry(); // This call will block until the process exits.
+        
+        version(X86_64) {
+            asm {
+                "mov %0, %%rsp" : : "r"(originalRsp);
+            }
+        }
+        current_pid = size_t.max;
+        // --- End stack switch ---
+
+        if (!p.exited)
+        {
+            process_exit(p.pid, 0);
         }
     }
 }
