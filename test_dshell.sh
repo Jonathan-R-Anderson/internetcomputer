@@ -16,4 +16,5 @@ qemu-system-x86_64 \
     -cdrom build/anonymOS.iso \
     -m 512M \
     -nographic \
-    -monitor none 
+    -monitor none
+

@@ -36,7 +36,6 @@ The shell implements the full command architecture from third_party/sh:
 
 **Architecture:**
 - `kernel/kernel/kshell.d` - Main shell implementation (332 lines)
-- `kernel/kernel/core/init_stubs.d` - Boot integration calling `kernel_shell_main()`
 - `kernel/kernel/keyboard.d` - Keyboard driver with `keyboard_getchar()`
 - `kernel/kernel/include/kernel/types.d` - String utilities and memory functions
 
@@ -88,7 +87,6 @@ dsh:/$ exit              # Exit (halts system)
 
 ### Modified Files:
 - `kernel/kernel/kshell.d` - **Complete rewrite** with full shell implementation
-- `kernel/kernel/core/init_stubs.d` - Updated to call `kernel_shell_main()`
 - `kernel/kernel/include/kernel/types.d` - Added `memmove()` function
 
 ## 🔧 Technical Details

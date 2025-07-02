@@ -55,11 +55,14 @@ compilation.
 
 ## Building
 
-Prerequisites include `grub-mkrescue`, `xorriso` and the `ldc2` D compiler.  Run
-`scripts/setup_dev_env.sh` first to fetch the POSIX wrappers and shell sources
-directly from their GitHub repositories:
+Prerequisites include `grub-mkrescue`, `xorriso` and the `ldc2` D compiler.
+Run `scripts/setup_dev_env.sh` first to fetch the POSIX wrappers, the DMD
+sources and the `-sh` shell directly from their GitHub repositories.  After the
+sources are available, build the DMD binary that will be packaged into the ISO
+by running `scripts/build_dmd.sh`:
 
 - [anonymos-posix](https://github.com/Jonathan-R-Anderson/anonymos-posix)
+- [dmd](https://github.com/dlang/dmd)
 - [\-sh](https://github.com/Jonathan-R-Anderson/-sh)
 
 These external components are compiled inside anonymOS after boot.  Then build

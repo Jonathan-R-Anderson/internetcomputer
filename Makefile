@@ -198,11 +198,9 @@ $(OBJ_DIR)/%.o: %.s
 	@mkdir -p $(dir $@)
 	$(AS) $(ASFLAGS) $< -o $@
 
-$(DMD_BIN): | $(BUILD_DIR)
-	@echo "Creating stub DMD binary..."
-	mkdir -p $(BUILD_DIR)/bin
-	echo "#!/bin/sh\necho \"Stub DMD\"" > $@
-	chmod +x $@
+$(DMD_BIN): fetch_dmd | $(BUILD_DIR)
+	@echo ">>> Building DMD compiler..."
+	bash scripts/build_dmd.sh
 
 # Build the shell using LDC2 in -betterC mode
 $(SH_BIN): fetch_shell | $(BUILD_DIR)
