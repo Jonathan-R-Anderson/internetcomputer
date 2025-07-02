@@ -56,6 +56,7 @@ KERNEL_D_ROOT_SRC           = $(filter-out $(KERNEL_D_FS_SRC),$(wildcard $(MICRO
 HYPERVISOR_SRC              = $(HYPERVISOR_DIR)/kernel/hypervisor.d
 OBJECT_TREE_SRC             = $(OBJECT_TREE_DIR)/kernel/object_namespace.d $(OBJECT_TREE_DIR)/kernel/object_validator.d
 # Note: kernel/utils/ansi_art.d is generated, so it's handled as a target, not a source wildcard here.
+EMBEDDED_SHELL_D_TARGET_FILE = kernel/kernel/embedded_shell.d
 
 ALL_KERNEL_D_SOURCES_NO_GENERATED = \
     $(KERNEL_D_ARCH_IF_SRC) \
@@ -124,7 +125,8 @@ DMD_BIN = $(BUILD_DIR)/bin/dmd
 ## Object Files (preserving directory structure under OBJ_DIR)
 ALL_KERNEL_D_OBJS_NO_GENERATED = $(patsubst %.d,$(OBJ_DIR)/%.o,$(ALL_KERNEL_D_SOURCES_NO_GENERATED))
 ANSI_ART_D_OBJ                 = $(patsubst %.d,$(OBJ_DIR)/%.o,$(ANSI_ART_D_TARGET_FILE))
-ALL_KERNEL_D_OBJS              = $(ALL_KERNEL_D_OBJS_NO_GENERATED) $(ANSI_ART_D_OBJ)
+EMBEDDED_SHELL_D_OBJ           = $(patsubst %.d,$(OBJ_DIR)/%.o,$(EMBEDDED_SHELL_D_TARGET_FILE))
+ALL_KERNEL_D_OBJS              = $(ALL_KERNEL_D_OBJS_NO_GENERATED) $(ANSI_ART_D_OBJ) $(EMBEDDED_SHELL_D_OBJ)
 
 ALL_ASM_OBJS      = $(patsubst %.s,$(OBJ_DIR)/%.o,$(ALL_ASM_SOURCES))
 ALL_OBJS          = $(ALL_ASM_OBJS) $(ALL_KERNEL_D_OBJS)
@@ -139,7 +141,7 @@ iso: $(ISO_FILE)
 build: $(ISO_FILE)
 
 
-$(ISO_FILE): $(KERNEL_BIN) $(DMD_BIN) fetch_shell fetch_dmd fetch_modules build_comprehensive_shell
+$(ISO_FILE): $(KERNEL_BIN) $(DMD_BIN) shell fetch_dmd fetch_modules
 	@echo ">>> Creating ISO Image..."
 	mkdir -p $(ISO_BOOT_DIR) $(ISO_GRUB_DIR) $(ISO_BIN_DIR) $(ISO_DIR)/third_party $(ISO_DIR)/sys/init
 	cp $(KERNEL_BIN) $(ISO_BOOT_DIR)/
@@ -212,6 +214,14 @@ dmd: $(DMD_BIN)
 
 shell: $(SH_BIN)
 
+$(EMBEDDED_SHELL_D_TARGET_FILE): $(SH_BIN)
+	@echo ">>> Embedding shell binary into D source..."
+	python3 scripts/embed_shell_binary.py --input $(SH_BIN) --output $@
+	@echo "Shell embedded successfully."
+
+# Make all D objects depend on the generated shell file
+$(ALL_KERNEL_D_OBJS): $(EMBEDDED_SHELL_D_TARGET_FILE)
+
 build_comprehensive_shell:
 	@echo ">>> Building comprehensive shell..."
 	@if [ -x "$(CURDIR)/scripts/build_comprehensive_shell.sh" ]; then \
@@ -221,7 +231,8 @@ build_comprehensive_shell:
 	fi
 
 fetch_shell:
-	./scripts/fetch_shell.sh
+	# ./scripts/fetch_shell.sh
+	@echo "Skipping shell fetch to preserve patches."
 
 fetch_posix:
 	./scripts/fetch_posix.sh
