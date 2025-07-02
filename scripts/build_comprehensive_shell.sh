@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # Script to create a kernel-compatible shell for anonymOS
 
