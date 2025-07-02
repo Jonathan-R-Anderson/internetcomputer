@@ -32,6 +32,8 @@ __gshared bool serial_input_mode = false; // prefer serial once we detect it
 char keyboard_getchar()
 {
     import kernel.arch_interface.ports : inb, outb;
+    import kernel.terminal : terminal_writestring;
+    
     uint timeout_counter = 0;
     const uint MAX_TIMEOUT = 1000; // Much shorter timeout before fallback
     
@@ -55,41 +57,32 @@ char keyboard_getchar()
         return c;
     }
     
-    // Fall back to polling mode
+    // Fall back to polling mode - prioritize PS/2 keyboard
     while (true) {
-        // --- Check serial port first so headless/stdio input works ---
+        // Poll PS/2 keyboard controller FIRST (not last)
+        ubyte status = inb(0x64);
+        if (status & 0x01) { // Data available
+            ubyte scancode = inb(0x60);
+            char c = scancode_to_char(scancode, shift_state);
+            if (c != 0) {
+                return c;
+            }
+            // Handle shift keys in polling mode too
+            if (scancode == 0x2A || scancode == 0x36) {
+                shift_state = true;
+            } else if (scancode == 0xAA || scancode == 0xB6) {
+                shift_state = false;
+            }
+        }
+
+        // Check serial port as secondary option
         ubyte lsr = inb(SERIAL_PORT + 5); // Line Status Register
         if (lsr & 0x01) { // Data Ready
             char s = cast(char) inb(SERIAL_PORT);
             if (s == '\r') s = '\n'; // Normalize CR to LF
-
-            serial_input_mode = true; // from now on rely on serial only
-
-            // Drop any queued chars (clear PS/2 buffer)
-            input_head = input_tail; // flush existing buffer
-
             return s;
         }
-
-        // Poll PS/2 keyboard controller
-        if(serial_input_mode) {
-            // Skip PS/2 polling once serial mode engaged
-        } else {
-            ubyte status = inb(0x64);
-            if (status & 0x01) { // Data available
-                ubyte scancode = inb(0x60);
-                char c = scancode_to_char(scancode, shift_state);
-                if (c != 0) {
-                    return c;
-                }
-                // Handle shift keys in polling mode too
-                if (scancode == 0x2A || scancode == 0x36) {
-                    shift_state = true;
-                } else if (scancode == 0xAA || scancode == 0xB6) {
-                    shift_state = false;
-                }
-            }
-        }
+        
         // Small delay to prevent overwhelming the I/O ports
         for (int i = 0; i < 1000; i++) asm { "pause"; }
     }

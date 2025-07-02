@@ -7,6 +7,7 @@ import kernel.types : VGAColor, strlen;
 import kernel.device.vga : clear_screen;
 import kernel.fs : fs_lookup, Node;
 import kernel.keyboard : keyboard_getchar;
+import kernel.arch_interface.ports : inb;
 
 pragma(LDC_no_moduleinfo);
 
@@ -283,6 +284,54 @@ void runCommand(const char[] cmdLine) {
     }
 }
 
+// Simple direct input reading for QEMU compatibility
+char getDirectInput() {
+    while(true) {
+        // Check serial port (COM1) for nographic mode
+        ubyte lsr = inb(0x3FD); // COM1 Line Status Register
+        if (lsr & 0x01) { // Data Ready
+            char c = cast(char) inb(0x3F8); // COM1 Data Register
+            if (c == '\r') c = '\n'; // Normalize
+            return c;
+        }
+        
+        // Check PS/2 keyboard for VGA mode
+        ubyte status = inb(0x64);
+        if (status & 0x01) { // Data available
+            ubyte scancode = inb(0x60);
+            
+            // Simple scancode to char mapping - only handle key press (not release)
+            if (!(scancode & 0x80)) { // Key press (not release)
+                switch(scancode) {
+                    case 0x1C: return '\n';  // Enter
+                    case 0x0E: return '\b';  // Backspace
+                    case 0x39: return ' ';   // Space
+                    case 0x1E: return 'a';   case 0x30: return 'b';   case 0x2E: return 'c';
+                    case 0x20: return 'd';   case 0x12: return 'e';   case 0x21: return 'f';
+                    case 0x22: return 'g';   case 0x23: return 'h';   case 0x17: return 'i';
+                    case 0x24: return 'j';   case 0x25: return 'k';   case 0x26: return 'l';
+                    case 0x32: return 'm';   case 0x31: return 'n';   case 0x18: return 'o';
+                    case 0x19: return 'p';   case 0x10: return 'q';   case 0x13: return 'r';
+                    case 0x1F: return 's';   case 0x14: return 't';   case 0x16: return 'u';
+                    case 0x2F: return 'v';   case 0x11: return 'w';   case 0x2D: return 'x';
+                    case 0x15: return 'y';   case 0x2C: return 'z';
+                    case 0x02: return '1';   case 0x03: return '2';   case 0x04: return '3';
+                    case 0x05: return '4';   case 0x06: return '5';   case 0x07: return '6';
+                    case 0x08: return '7';   case 0x09: return '8';   case 0x0A: return '9';
+                    case 0x0B: return '0';
+                    case 0x0C: return '-';   case 0x0D: return '=';
+                    case 0x27: return ';';   case 0x28: return '\'';
+                    case 0x33: return ',';   case 0x34: return '.';   case 0x35: return '/';
+                    default: break;
+                }
+            }
+        }
+        
+        // Small delay to prevent overwhelming CPU
+        for(int i = 0; i < 1000; i++) asm { "pause"; }
+    }
+}
+
 // Read input from keyboard
 void readInput(char[] buffer, size_t maxLen) {
     size_t pos = 0;
@@ -291,7 +340,7 @@ void readInput(char[] buffer, size_t maxLen) {
     terminal_writestring_color("$ ", VGAColor.GREEN, VGAColor.BLACK);
     
     while(pos < maxLen - 1) {
-        char c = keyboard_getchar();
+        char c = getDirectInput();
         
         if(c == '\n' || c == '\r') {
             terminal_writestring("\n");

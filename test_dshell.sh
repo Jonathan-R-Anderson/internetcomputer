@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # test_dshell.sh - Interactive test of the D shell
 echo "🚀 Testing anonymOS D Shell - Full third_party/sh Implementation 🚀"
