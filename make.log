@@ -1,109 +1,420 @@
-Modules already present in modules/ directory
-as              --64  modules/microkernel/arch/x86/boot/boot.s -o build/obj/modules/microkernel/arch/x86/boot/boot.o
-as              --64  modules/microkernel/arch/x86/cpu/gdt.s -o build/obj/modules/microkernel/arch/x86/cpu/gdt.o
-modules/microkernel/arch/x86/cpu/gdt.s: Assembler messages:
-modules/microkernel/arch/x86/cpu/gdt.s:37: Warning: mnemonic suffix used with `lret'
-modules/microkernel/arch/x86/cpu/gdt.s:37: Warning: NOTE: Such forms are deprecated and will be rejected by a future version of the assembler
-as              --64  modules/microkernel/arch/x86/cpu/idt_loader.s -o build/obj/modules/microkernel/arch/x86/cpu/idt_loader.o
-as              --64  modules/microkernel/arch/x86/cpu/ports.s -o build/obj/modules/microkernel/arch/x86/cpu/ports.o
-as              --64  modules/microkernel/kernel/utils/debug_asm.s -o build/obj/modules/microkernel/kernel/utils/debug_asm.o
-as              --64  modules/microkernel/arch/x86/cpu/interrupts_asm.s -o build/obj/modules/microkernel/arch/x86/cpu/interrupts_asm.o
-as              --64  modules/microkernel/arch/x86/cpu/keyboard_handler_asm.s -o build/obj/modules/microkernel/arch/x86/cpu/keyboard_handler_asm.o
-as              --64  modules/microkernel/arch/x86/cpu/tss.s -o build/obj/modules/microkernel/arch/x86/cpu/tss.o
-as              --64  modules/microkernel/arch/x86/interrupt_stubs.s -o build/obj/modules/microkernel/arch/x86/interrupt_stubs.o
-as              --64  modules/microkernel/arch/x86/cpu/thread_switch.s -o build/obj/modules/microkernel/arch/x86/cpu/thread_switch.o
-ldc2            -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64  -I. -Imodules/microkernel -Imodules/microkernel/kernel/include -Imodules/hypervisor -Imodules/object-tree -c modules/microkernel/kernel/arch_interface/gdt.d -of=build/obj/modules/microkernel/kernel/arch_interface/gdt.o
-GdtPtr.sizeof = 10LU
-ldc2            -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64  -I. -Imodules/microkernel -Imodules/microkernel/kernel/include -Imodules/hypervisor -Imodules/object-tree -c modules/microkernel/kernel/arch_interface/idt.d -of=build/obj/modules/microkernel/kernel/arch_interface/idt.o
-GdtPtr.sizeof = 10LU
-IDTPtr.sizeof = 10LU
-ldc2            -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64  -I. -Imodules/microkernel -Imodules/microkernel/kernel/include -Imodules/hypervisor -Imodules/object-tree -c modules/microkernel/kernel/arch_interface/ports.d -of=build/obj/modules/microkernel/kernel/arch_interface/ports.o
-ldc2            -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64  -I. -Imodules/microkernel -Imodules/microkernel/kernel/include -Imodules/hypervisor -Imodules/object-tree -c modules/microkernel/kernel/core/init_stubs.d -of=build/obj/modules/microkernel/kernel/core/init_stubs.o
-ldc2            -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64  -I. -Imodules/microkernel -Imodules/microkernel/kernel/include -Imodules/hypervisor -Imodules/object-tree -c modules/microkernel/kernel/core/main.d -of=build/obj/modules/microkernel/kernel/core/main.o
-GdtPtr.sizeof = 10LU
-IDTPtr.sizeof = 10LU
-ldc2            -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64  -I. -Imodules/microkernel -Imodules/microkernel/kernel/include -Imodules/hypervisor -Imodules/object-tree -c modules/microkernel/kernel/device/pic.d -of=build/obj/modules/microkernel/kernel/device/pic.o
-ldc2            -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64  -I. -Imodules/microkernel -Imodules/microkernel/kernel/include -Imodules/hypervisor -Imodules/object-tree -c modules/microkernel/kernel/device/vga.d -of=build/obj/modules/microkernel/kernel/device/vga.o
-ldc2            -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64  -I. -Imodules/microkernel -Imodules/microkernel/kernel/include -Imodules/hypervisor -Imodules/object-tree -c modules/microkernel/kernel/hardware/network.d -of=build/obj/modules/microkernel/kernel/hardware/network.o
-ldc2            -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64  -I. -Imodules/microkernel -Imodules/microkernel/kernel/include -Imodules/hypervisor -Imodules/object-tree -c modules/microkernel/kernel/memory/virtmem.d -of=build/obj/modules/microkernel/kernel/memory/virtmem.o
-ldc2            -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64  -I. -Imodules/microkernel -Imodules/microkernel/kernel/include -Imodules/hypervisor -Imodules/object-tree -c modules/microkernel/kernel/net/arp.d -of=build/obj/modules/microkernel/kernel/net/arp.o
-ldc2            -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64  -I. -Imodules/microkernel -Imodules/microkernel/kernel/include -Imodules/hypervisor -Imodules/object-tree -c modules/microkernel/kernel/net/checksum.d -of=build/obj/modules/microkernel/kernel/net/checksum.o
-ldc2            -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64  -I. -Imodules/microkernel -Imodules/microkernel/kernel/include -Imodules/hypervisor -Imodules/object-tree -c modules/microkernel/kernel/net/common.d -of=build/obj/modules/microkernel/kernel/net/common.o
-ldc2            -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64  -I. -Imodules/microkernel -Imodules/microkernel/kernel/include -Imodules/hypervisor -Imodules/object-tree -c modules/microkernel/kernel/net/ethernet.d -of=build/obj/modules/microkernel/kernel/net/ethernet.o
-ldc2            -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64  -I. -Imodules/microkernel -Imodules/microkernel/kernel/include -Imodules/hypervisor -Imodules/object-tree -c modules/microkernel/kernel/net/ip.d -of=build/obj/modules/microkernel/kernel/net/ip.o
-ldc2            -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64  -I. -Imodules/microkernel -Imodules/microkernel/kernel/include -Imodules/hypervisor -Imodules/object-tree -c modules/microkernel/kernel/net/stack.d -of=build/obj/modules/microkernel/kernel/net/stack.o
-ldc2            -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64  -I. -Imodules/microkernel -Imodules/microkernel/kernel/include -Imodules/hypervisor -Imodules/object-tree -c modules/microkernel/kernel/net/udp.d -of=build/obj/modules/microkernel/kernel/net/udp.o
-ldc2            -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64  -I. -Imodules/microkernel -Imodules/microkernel/kernel/include -Imodules/hypervisor -Imodules/object-tree -c modules/microkernel/kernel/include/kernel/io.d -of=build/obj/modules/microkernel/kernel/include/kernel/io.o
-ldc2            -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64  -I. -Imodules/microkernel -Imodules/microkernel/kernel/include -Imodules/hypervisor -Imodules/object-tree -c modules/microkernel/kernel/include/kernel/panic.d -of=build/obj/modules/microkernel/kernel/include/kernel/panic.o
-ldc2            -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64  -I. -Imodules/microkernel -Imodules/microkernel/kernel/include -Imodules/hypervisor -Imodules/object-tree -c modules/microkernel/kernel/include/kernel/types.d -of=build/obj/modules/microkernel/kernel/include/kernel/types.o
-ldc2            -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64  -I. -Imodules/microkernel -Imodules/microkernel/kernel/include -Imodules/hypervisor -Imodules/object-tree -c modules/microkernel/kernel/lib/stdc/config.d -of=build/obj/modules/microkernel/kernel/lib/stdc/config.o
-ldc2            -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64  -I. -Imodules/microkernel -Imodules/microkernel/kernel/include -Imodules/hypervisor -Imodules/object-tree -c modules/microkernel/kernel/lib/stdc/stdint.d -of=build/obj/modules/microkernel/kernel/lib/stdc/stdint.o
-ldc2            -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64  -I. -Imodules/microkernel -Imodules/microkernel/kernel/include -Imodules/hypervisor -Imodules/object-tree -c modules/microkernel/kernel/lib/stdc/stdio.d -of=build/obj/modules/microkernel/kernel/lib/stdc/stdio.o
-ldc2            -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64  -I. -Imodules/microkernel -Imodules/microkernel/kernel/include -Imodules/hypervisor -Imodules/object-tree -c modules/microkernel/kernel/lib/stdc/stdlib.d -of=build/obj/modules/microkernel/kernel/lib/stdc/stdlib.o
-ldc2            -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64  -I. -Imodules/microkernel -Imodules/microkernel/kernel/include -Imodules/hypervisor -Imodules/object-tree -c modules/microkernel/kernel/lib/stdc/time.d -of=build/obj/modules/microkernel/kernel/lib/stdc/time.o
-ldc2            -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64  -I. -Imodules/microkernel -Imodules/microkernel/kernel/include -Imodules/hypervisor -Imodules/object-tree -c modules/microkernel/kernel/lib/stdc/wchar_.d -of=build/obj/modules/microkernel/kernel/lib/stdc/wchar_.o
-ldc2            -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64  -I. -Imodules/microkernel -Imodules/microkernel/kernel/include -Imodules/hypervisor -Imodules/object-tree -c modules/microkernel/kernel/fs.d -of=build/obj/modules/microkernel/kernel/fs.o
-ldc2            -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64  -I. -Imodules/microkernel -Imodules/microkernel/kernel/include -Imodules/hypervisor -Imodules/object-tree -c modules/microkernel/kernel/container_service.d -of=build/obj/modules/microkernel/kernel/container_service.o
-ldc2            -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64  -I. -Imodules/microkernel -Imodules/microkernel/kernel/include -Imodules/hypervisor -Imodules/object-tree -c modules/microkernel/kernel/elf_loader.d -of=build/obj/modules/microkernel/kernel/elf_loader.o
-ldc2            -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64  -I. -Imodules/microkernel -Imodules/microkernel/kernel/include -Imodules/hypervisor -Imodules/object-tree -c modules/microkernel/kernel/embedded_shell.d -of=build/obj/modules/microkernel/kernel/embedded_shell.o
-ldc2            -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64  -I. -Imodules/microkernel -Imodules/microkernel/kernel/include -Imodules/hypervisor -Imodules/object-tree -c modules/microkernel/kernel/interrupts.d -of=build/obj/modules/microkernel/kernel/interrupts.o
-ldc2            -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64  -I. -Imodules/microkernel -Imodules/microkernel/kernel/include -Imodules/hypervisor -Imodules/object-tree -c modules/microkernel/kernel/keyboard.d -of=build/obj/modules/microkernel/kernel/keyboard.o
-ldc2            -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64  -I. -Imodules/microkernel -Imodules/microkernel/kernel/include -Imodules/hypervisor -Imodules/object-tree -c modules/microkernel/kernel/logger.d -of=build/obj/modules/microkernel/kernel/logger.o
-ldc2            -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64  -I. -Imodules/microkernel -Imodules/microkernel/kernel/include -Imodules/hypervisor -Imodules/object-tree -c modules/microkernel/kernel/login.d -of=build/obj/modules/microkernel/kernel/login.o
-ldc2            -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64  -I. -Imodules/microkernel -Imodules/microkernel/kernel/include -Imodules/hypervisor -Imodules/object-tree -c modules/microkernel/kernel/process_manager.d -of=build/obj/modules/microkernel/kernel/process_manager.o
-ldc2            -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64  -I. -Imodules/microkernel -Imodules/microkernel/kernel/include -Imodules/hypervisor -Imodules/object-tree -c modules/microkernel/kernel/sanity.d -of=build/obj/modules/microkernel/kernel/sanity.o
-ldc2            -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64  -I. -Imodules/microkernel -Imodules/microkernel/kernel/include -Imodules/hypervisor -Imodules/object-tree -c modules/microkernel/kernel/serial.d -of=build/obj/modules/microkernel/kernel/serial.o
-ldc2            -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64  -I. -Imodules/microkernel -Imodules/microkernel/kernel/include -Imodules/hypervisor -Imodules/object-tree -c modules/microkernel/kernel/shell.d -of=build/obj/modules/microkernel/kernel/shell.o
-ldc2            -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64  -I. -Imodules/microkernel -Imodules/microkernel/kernel/include -Imodules/hypervisor -Imodules/object-tree -c modules/microkernel/kernel/sync.d -of=build/obj/modules/microkernel/kernel/sync.o
-ldc2            -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64  -I. -Imodules/microkernel -Imodules/microkernel/kernel/include -Imodules/hypervisor -Imodules/object-tree -c modules/microkernel/kernel/syscall.d -of=build/obj/modules/microkernel/kernel/syscall.o
-ldc2            -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64  -I. -Imodules/microkernel -Imodules/microkernel/kernel/include -Imodules/hypervisor -Imodules/object-tree -c modules/microkernel/kernel/terminal.d -of=build/obj/modules/microkernel/kernel/terminal.o
-ldc2            -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64  -I. -Imodules/microkernel -Imodules/microkernel/kernel/include -Imodules/hypervisor -Imodules/object-tree -c modules/microkernel/kernel/thread.d -of=build/obj/modules/microkernel/kernel/thread.o
-ldc2            -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64  -I. -Imodules/microkernel -Imodules/microkernel/kernel/include -Imodules/hypervisor -Imodules/object-tree -c modules/microkernel/kernel/user_manager.d -of=build/obj/modules/microkernel/kernel/user_manager.o
-ldc2            -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64  -I. -Imodules/microkernel -Imodules/microkernel/kernel/include -Imodules/hypervisor -Imodules/object-tree -c modules/hypervisor/kernel/hypervisor.d -of=build/obj/modules/hypervisor/kernel/hypervisor.o
-ldc2            -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64  -I. -Imodules/microkernel -Imodules/microkernel/kernel/include -Imodules/hypervisor -Imodules/object-tree -c modules/object-tree/kernel/object_namespace.d -of=build/obj/modules/object-tree/kernel/object_namespace.o
-ldc2            -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64  -I. -Imodules/microkernel -Imodules/microkernel/kernel/include -Imodules/hypervisor -Imodules/object-tree -c modules/object-tree/kernel/object_validator.d -of=build/obj/modules/object-tree/kernel/object_validator.o
-ldc2            -betterC -O1 -g -boundscheck=off -output-o -mtriple=x86_64-unknown-elf -mcpu=x86-64  -I. -Imodules/microkernel -Imodules/microkernel/kernel/include -Imodules/hypervisor -Imodules/object-tree -c modules/microkernel/kernel/utils/ansi_art.d -of=build/obj/modules/microkernel/kernel/utils/ansi_art.o
+# ./scripts/fetch_shell.sh
 make: Circular build <- build/anonymOS.iso dependency dropped.
 mkdir -p build
+Required sub-repositories already present in top-level directories (kernel/, hypervisor/, object-tree/)
+./scripts/fetch_dmd.sh
+Skipping shell fetch to preserve patches.
+Updating DMD repository...
+>>> Building shell binary...
+mkdir -p build/bin
+# Use the extracted shell binary instead of compiling
+Shell binary ready: build/bin/sh
 mkdir -p build
 # Removed -lgcc as it's specific to GCC. LDC2/LLD should handle necessary runtime bits or emit self-contained code.
-ld.lld          -nostdlib -no-pie  -T modules/microkernel/arch/x86/linker.ld -o build/kernel.bin build/obj/modules/microkernel/arch/x86/boot/boot.o build/obj/modules/microkernel/arch/x86/cpu/gdt.o build/obj/modules/microkernel/arch/x86/cpu/idt_loader.o build/obj/modules/microkernel/arch/x86/cpu/ports.o build/obj/modules/microkernel/kernel/utils/debug_asm.o build/obj/modules/microkernel/arch/x86/cpu/interrupts_asm.o build/obj/modules/microkernel/arch/x86/cpu/keyboard_handler_asm.o build/obj/modules/microkernel/arch/x86/cpu/tss.o build/obj/modules/microkernel/arch/x86/interrupt_stubs.o build/obj/modules/microkernel/arch/x86/cpu/thread_switch.o build/obj/modules/microkernel/kernel/arch_interface/gdt.o build/obj/modules/microkernel/kernel/arch_interface/idt.o build/obj/modules/microkernel/kernel/arch_interface/ports.o build/obj/modules/microkernel/kernel/core/init_stubs.o build/obj/modules/microkernel/kernel/core/main.o build/obj/modules/microkernel/kernel/device/pic.o build/obj/modules/microkernel/kernel/device/vga.o build/obj/modules/microkernel/kernel/hardware/network.o build/obj/modules/microkernel/kernel/memory/virtmem.o build/obj/modules/microkernel/kernel/net/arp.o build/obj/modules/microkernel/kernel/net/checksum.o build/obj/modules/microkernel/kernel/net/common.o build/obj/modules/microkernel/kernel/net/ethernet.o build/obj/modules/microkernel/kernel/net/ip.o build/obj/modules/microkernel/kernel/net/stack.o build/obj/modules/microkernel/kernel/net/udp.o build/obj/modules/microkernel/kernel/include/kernel/io.o build/obj/modules/microkernel/kernel/include/kernel/panic.o build/obj/modules/microkernel/kernel/include/kernel/types.o build/obj/modules/microkernel/kernel/lib/stdc/config.o build/obj/modules/microkernel/kernel/lib/stdc/stdint.o build/obj/modules/microkernel/kernel/lib/stdc/stdio.o build/obj/modules/microkernel/kernel/lib/stdc/stdlib.o build/obj/modules/microkernel/kernel/lib/stdc/time.o build/obj/modules/microkernel/kernel/lib/stdc/wchar_.o build/obj/modules/microkernel/kernel/fs.o build/obj/modules/microkernel/kernel/container_service.o build/obj/modules/microkernel/kernel/elf_loader.o build/obj/modules/microkernel/kernel/embedded_shell.o build/obj/modules/microkernel/kernel/interrupts.o build/obj/modules/microkernel/kernel/keyboard.o build/obj/modules/microkernel/kernel/logger.o build/obj/modules/microkernel/kernel/login.o build/obj/modules/microkernel/kernel/process_manager.o build/obj/modules/microkernel/kernel/sanity.o build/obj/modules/microkernel/kernel/serial.o build/obj/modules/microkernel/kernel/shell.o build/obj/modules/microkernel/kernel/sync.o build/obj/modules/microkernel/kernel/syscall.o build/obj/modules/microkernel/kernel/terminal.o build/obj/modules/microkernel/kernel/thread.o build/obj/modules/microkernel/kernel/user_manager.o build/obj/modules/hypervisor/kernel/hypervisor.o build/obj/modules/object-tree/kernel/object_namespace.o build/obj/modules/object-tree/kernel/object_validator.o build/obj/modules/microkernel/kernel/utils/ansi_art.o
-./scripts/build_dmd.sh
-Updating dmd sources...
-Already up to date.
-make[1]: Entering directory '/home/ubuntu/Code/internetcomputer_backup/third_party/dmd'
-generated/build dmd
-Success
-make -C druntime
-make[2]: Entering directory '/home/ubuntu/Code/internetcomputer_backup/third_party/dmd/druntime'
-make[2]: Nothing to be done for 'target'.
-make[2]: Leaving directory '/home/ubuntu/Code/internetcomputer_backup/third_party/dmd/druntime'
-make[1]: Leaving directory '/home/ubuntu/Code/internetcomputer_backup/third_party/dmd'
-DMD built and copied to /home/ubuntu/Code/internetcomputer_backup/build/bin/dmd
-./scripts/fetch_dmd.sh
-Updating DMD repository...
+ld.lld          -nostdlib -no-pie  -T kernel/arch/x86/linker.ld -o build/kernel.bin build/obj/kernel/arch/x86/boot/boot.o build/obj/kernel/arch/x86/cpu/gdt.o build/obj/kernel/arch/x86/cpu/idt_loader.o build/obj/kernel/arch/x86/cpu/ports.o build/obj/kernel/kernel/utils/debug_asm.o build/obj/kernel/arch/x86/cpu/interrupts_asm.o build/obj/kernel/arch/x86/cpu/keyboard_handler_asm.o build/obj/kernel/arch/x86/cpu/tss.o build/obj/kernel/arch/x86/interrupt_stubs.o build/obj/kernel/arch/x86/cpu/thread_switch.o build/obj/kernel/kernel/arch_interface/gdt.o build/obj/kernel/kernel/arch_interface/idt.o build/obj/kernel/kernel/arch_interface/ports.o build/obj/kernel/kernel/core/init_stubs.o build/obj/kernel/kernel/core/main.o build/obj/kernel/kernel/device/pic.o build/obj/kernel/kernel/device/vga.o build/obj/kernel/kernel/hardware/network.o build/obj/kernel/kernel/memory/virtmem.o build/obj/kernel/kernel/net/arp.o build/obj/kernel/kernel/net/checksum.o build/obj/kernel/kernel/net/common.o build/obj/kernel/kernel/net/ethernet.o build/obj/kernel/kernel/net/ip.o build/obj/kernel/kernel/net/stack.o build/obj/kernel/kernel/net/udp.o build/obj/kernel/kernel/include/kernel/io.o build/obj/kernel/kernel/include/kernel/panic.o build/obj/kernel/kernel/include/kernel/types.o build/obj/kernel/kernel/lib/stdc/config.o build/obj/kernel/kernel/lib/stdc/stdint.o build/obj/kernel/kernel/lib/stdc/stdio.o build/obj/kernel/kernel/lib/stdc/stdlib.o build/obj/kernel/kernel/lib/stdc/time.o build/obj/kernel/kernel/lib/stdc/wchar_.o build/obj/kernel/kernel/fs.o build/obj/kernel/kernel/container_service.o build/obj/kernel/kernel/elf_loader.o build/obj/kernel/kernel/interrupts.o build/obj/kernel/kernel/keyboard.o build/obj/kernel/kernel/logger.o build/obj/kernel/kernel/login.o build/obj/kernel/kernel/process_manager.o build/obj/kernel/kernel/sanity.o build/obj/kernel/kernel/serial.o build/obj/kernel/kernel/shell.o build/obj/kernel/kernel/sync.o build/obj/kernel/kernel/syscall.o build/obj/kernel/kernel/terminal.o build/obj/kernel/kernel/thread.o build/obj/kernel/kernel/user_manager.o build/obj/hypervisor/kernel/hypervisor.o build/obj/object-tree/kernel/object_namespace.o build/obj/object-tree/kernel/object_validator.o build/obj/kernel/kernel/utils/ansi_art.o build/obj/kernel/kernel/embedded_shell.o
 From https://github.com/dlang/dmd
  * branch            master     -> FETCH_HEAD
 HEAD is now at 285feee Merge pull request #21486 from rainers/merge_stable
-./scripts/fetch_shell.sh
-Updating shell repository...
-From https://github.com/Jonathan-R-Anderson/-sh
- * branch            main       -> FETCH_HEAD
-HEAD is now at b79230f Merge pull request #143 from Jonathan-R-Anderson/codex/refactor-project-to-use-full-compiler
->>> Building shell binary...
-mkdir -p build/bin
-# Use the shell's full build script instead of betterC
-cd third_party/sh && ./build_full.sh
-Compiling modules: src/awk.d src/base32.d src/base64.d src/bc.d src/cal.d src/chkconfig.d src/cksum.d src/cmp.d src/comm.d src/cpio.d src/cron.d src/crontab.d src/csplit.d src/cut.d src/date.d src/dc.d src/dd.d src/ddrescue.d src/df.d src/diff3.d src/diff.d src/dircolors.d src/dir.d src/dirname.d src/dlexer.d src/dmesg.d src/dos2unix.d src/dparser.d src/du.d src/egrep.d src/eject.d src/example.d src/expand.d src/expr.d src/false.d src/fdformat.d src/fdisk.d src/fgrep.d src/file.d src/find.d src/fmt.d src/fold.d src/fsck.d src/fuser.d src/getfacl.d src/getopts.d src/groupadd.d src/groupdel.d src/groupmod.d src/groups.d src/gzip.d src/iconv.d src/id.d src/ifcmd.d src/ifconfig.d src/ifdown.d src/ifup.d src/importcmd.d src/install.d src/interpreter.d src/iostat.d src/ip.d src/join.d src/killall.d src/kill.d src/klist.d src/less.d src/letcmd.d src/lfe.d src/lferepl.d src/linkcmd.d src/ln.d src/local.d src/locate.d src/login.d src/logname.d src/logout.d src/look.d src/lsblk.d src/ls.d src/lsof.d src/md5sum.d src/objectsystem.d
-mstd/file.d(11): Error: module `core.sys.posix.sys.stat` import `rmdir` not found, did you mean function `core.sys.posix.sys.stat.mkdir`?
-mstd/string.d(3): Error: module `core.stdc.string` import `strcasecmp` not found
-src/dlexer.d(16): Error: template instance `Regex!char` `Regex` is not a template declaration, it is a alias
-src/interpreter.d(7): Error: module `mstd.file` import `mkdir` not found, did you mean alias `mstd.file.chdir`?
-src/interpreter.d(7): Error: module `mstd.file` import `rmdir` not found, did you mean alias `mstd.file.chdir`?
-src/ls.d(6): Error: module `mstd.string` import `format` not found
-src/lferepl.d(15): Error: module `cpio` import `createArchive` not found
-src/lferepl.d(371): Error: cannot use array to initialize `immutable(_error_)`
-mstd/stdio.d(7): Error: static variable `stdin` cannot be read at compile time
-mstd/stdio.d(8): Error: static variable `stdout` cannot be read at compile time
-mstd/stdio.d(9): Error: static variable `stderr` cannot be read at compile time
-make: *** [Makefile:207: build/bin/sh] Error 1
+>>> Creating ISO Image...
+mkdir -p build/isofiles/boot build/isofiles/boot/grub build/isofiles/bin build/isofiles/third_party build/isofiles/sys/init
+cp build/kernel.bin build/isofiles/boot/
+cp build/bin/dmd build/isofiles/bin/
+# Copy comprehensive shell if it exists
+Installing comprehensive shell to ISO...
+rsync -a --exclude='.git' third_party/sh/ build/isofiles/third_party/sh/
+rsync -a --exclude='.git' third_party/posix/ build/isofiles/third_party/posix/
+rsync -a --exclude='.git' third_party/dmd/ build/isofiles/third_party/dmd/
+cp scripts/install_shell_in_os.sh build/isofiles/sys/init/
+cp scripts/install_dmd_in_os.sh build/isofiles/sys/init/
+cp scripts/install_posix_in_os.sh build/isofiles/sys/init/
+echo "Generating build/isofiles/boot/grub/grub.cfg..." # This line and subsequent echos form the grub.cfg
+Generating build/isofiles/boot/grub/grub.cfg...
+echo "set timeout=0" > build/isofiles/boot/grub/grub.cfg
+echo "set default=0" >> build/isofiles/boot/grub/grub.cfg
+echo "" >> build/isofiles/boot/grub/grub.cfg # Add a blank line for readability
+echo "menuentry \"anonymOS\" {" >> build/isofiles/boot/grub/grub.cfg
+# echo "    echo \"Attempting to load kernel: /boot/kernel.bin ...\"" >> build/isofiles/boot/grub/grub.cfg # Debug echo, can be removed
+echo "    multiboot2 /boot/kernel.bin" >> build/isofiles/boot/grub/grub.cfg
+# echo "    echo \"Kernel load attempt finished. Multiboot2 info should be set.\"" >> build/isofiles/boot/grub/grub.cfg # Debug echo, can be removed
+echo "    boot" >> build/isofiles/boot/grub/grub.cfg # The actual boot command
+echo "}" >> build/isofiles/boot/grub/grub.cfg
+command -v xorriso >/dev/null || { echo "Error: xorriso not installed. Please install it (e.g., sudo apt-get install xorriso)."; exit 1; }
+grub-mkrescue -v -o build/anonymOS.iso build/isofiles
+grub-mkrescue: info: temporary iso9660 dir is `/tmp/grub.fpC45U'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/share/locale/ast/LC_MESSAGES/grub.mo' -> `/tmp/grub.fpC45U/boot/grub/locale/ast.mo'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/share/locale/ru/LC_MESSAGES/grub.mo' -> `/tmp/grub.fpC45U/boot/grub/locale/ru.mo'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/share/locale/uk/LC_MESSAGES/grub.mo' -> `/tmp/grub.fpC45U/boot/grub/locale/uk.mo'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/share/locale/zh_CN/LC_MESSAGES/grub.mo' -> `/tmp/grub.fpC45U/boot/grub/locale/zh_CN.mo'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/share/locale/ka/LC_MESSAGES/grub.mo' -> `/tmp/grub.fpC45U/boot/grub/locale/ka.mo'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/share/locale/lg/LC_MESSAGES/grub.mo' -> `/tmp/grub.fpC45U/boot/grub/locale/lg.mo'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/share/locale/nb/LC_MESSAGES/grub.mo' -> `/tmp/grub.fpC45U/boot/grub/locale/nb.mo'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/share/locale/pa/LC_MESSAGES/grub.mo' -> `/tmp/grub.fpC45U/boot/grub/locale/pa.mo'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/share/locale/pt/LC_MESSAGES/grub.mo' -> `/tmp/grub.fpC45U/boot/grub/locale/pt.mo'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/share/locale/en@cyrillic/LC_MESSAGES/grub.mo' -> `/tmp/grub.fpC45U/boot/grub/locale/en@cyrillic.mo'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/share/locale/ro/LC_MESSAGES/grub.mo' -> `/tmp/grub.fpC45U/boot/grub/locale/ro.mo'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/share/locale/id/LC_MESSAGES/grub.mo' -> `/tmp/grub.fpC45U/boot/grub/locale/id.mo'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/share/locale/pl/LC_MESSAGES/grub.mo' -> `/tmp/grub.fpC45U/boot/grub/locale/pl.mo'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/share/locale/de@hebrew/LC_MESSAGES/grub.mo' -> `/tmp/grub.fpC45U/boot/grub/locale/de@hebrew.mo'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/share/locale/de/LC_MESSAGES/grub.mo' -> `/tmp/grub.fpC45U/boot/grub/locale/de.mo'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/share/locale/lt/LC_MESSAGES/grub.mo' -> `/tmp/grub.fpC45U/boot/grub/locale/lt.mo'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/share/locale/sl/LC_MESSAGES/grub.mo' -> `/tmp/grub.fpC45U/boot/grub/locale/sl.mo'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/share/locale/gl/LC_MESSAGES/grub.mo' -> `/tmp/grub.fpC45U/boot/grub/locale/gl.mo'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/share/locale/en@piglatin/LC_MESSAGES/grub.mo' -> `/tmp/grub.fpC45U/boot/grub/locale/en@piglatin.mo'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/share/locale/da/LC_MESSAGES/grub.mo' -> `/tmp/grub.fpC45U/boot/grub/locale/da.mo'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/share/locale/nl/LC_MESSAGES/grub.mo' -> `/tmp/grub.fpC45U/boot/grub/locale/nl.mo'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/share/locale/hr/LC_MESSAGES/grub.mo' -> `/tmp/grub.fpC45U/boot/grub/locale/hr.mo'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/share/locale/he/LC_MESSAGES/grub.mo' -> `/tmp/grub.fpC45U/boot/grub/locale/he.mo'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/share/locale/en@greek/LC_MESSAGES/grub.mo' -> `/tmp/grub.fpC45U/boot/grub/locale/en@greek.mo'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/share/locale/it/LC_MESSAGES/grub.mo' -> `/tmp/grub.fpC45U/boot/grub/locale/it.mo'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/share/locale/zh_TW/LC_MESSAGES/grub.mo' -> `/tmp/grub.fpC45U/boot/grub/locale/zh_TW.mo'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/share/locale/ja/LC_MESSAGES/grub.mo' -> `/tmp/grub.fpC45U/boot/grub/locale/ja.mo'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/share/locale/sv/LC_MESSAGES/grub.mo' -> `/tmp/grub.fpC45U/boot/grub/locale/sv.mo'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/share/locale/de_CH/LC_MESSAGES/grub.mo' -> `/tmp/grub.fpC45U/boot/grub/locale/de_CH.mo'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/share/locale/fi/LC_MESSAGES/grub.mo' -> `/tmp/grub.fpC45U/boot/grub/locale/fi.mo'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/share/locale/en@hebrew/LC_MESSAGES/grub.mo' -> `/tmp/grub.fpC45U/boot/grub/locale/en@hebrew.mo'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/share/locale/eo/LC_MESSAGES/grub.mo' -> `/tmp/grub.fpC45U/boot/grub/locale/eo.mo'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/share/locale/tr/LC_MESSAGES/grub.mo' -> `/tmp/grub.fpC45U/boot/grub/locale/tr.mo'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/share/locale/hu/LC_MESSAGES/grub.mo' -> `/tmp/grub.fpC45U/boot/grub/locale/hu.mo'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/share/locale/sr/LC_MESSAGES/grub.mo' -> `/tmp/grub.fpC45U/boot/grub/locale/sr.mo'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/share/locale/ko/LC_MESSAGES/grub.mo' -> `/tmp/grub.fpC45U/boot/grub/locale/ko.mo'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/share/locale/pt_BR/LC_MESSAGES/grub.mo' -> `/tmp/grub.fpC45U/boot/grub/locale/pt_BR.mo'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/share/locale/en@quot/LC_MESSAGES/grub.mo' -> `/tmp/grub.fpC45U/boot/grub/locale/en@quot.mo'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/share/locale/vi/LC_MESSAGES/grub.mo' -> `/tmp/grub.fpC45U/boot/grub/locale/vi.mo'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/share/locale/ca/LC_MESSAGES/grub.mo' -> `/tmp/grub.fpC45U/boot/grub/locale/ca.mo'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/share/locale/es/LC_MESSAGES/grub.mo' -> `/tmp/grub.fpC45U/boot/grub/locale/es.mo'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/share/locale/fr/LC_MESSAGES/grub.mo' -> `/tmp/grub.fpC45U/boot/grub/locale/fr.mo'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/share/locale/en@arabic/LC_MESSAGES/grub.mo' -> `/tmp/grub.fpC45U/boot/grub/locale/en@arabic.mo'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/btrfs.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/btrfs.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/blocklist.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/blocklist.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/gcry_sha512.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/gcry_sha512.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/usbserial_common.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/usbserial_common.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/minix2_be.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/minix2_be.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/test_blockarg.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/test_blockarg.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/ufs1_be.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/ufs1_be.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/lsapm.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/lsapm.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/lspci.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/lspci.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/gfxterm_menu.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/gfxterm_menu.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/mdraid1x.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/mdraid1x.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/memrw.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/memrw.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/read.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/read.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/testspeed.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/testspeed.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/reboot.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/reboot.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/relocator.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/relocator.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/sleep.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/sleep.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/probe.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/probe.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/ata.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/ata.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/bfs.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/bfs.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/sleep_test.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/sleep_test.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/div.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/div.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/hello.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/hello.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/part_bsd.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/part_bsd.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/usb.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/usb.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/video.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/video.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/videotest.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/videotest.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/usbserial_pl2303.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/usbserial_pl2303.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/biosdisk.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/biosdisk.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/minicmd.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/minicmd.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/xfs.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/xfs.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/ufs1.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/ufs1.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/ahci.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/ahci.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/plan9.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/plan9.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/datetime.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/datetime.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/jpeg.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/jpeg.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/luks.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/luks.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/nilfs2.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/nilfs2.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/hfsplus.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/hfsplus.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/xnu_uuid.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/xnu_uuid.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/video_bochs.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/video_bochs.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/cbmemc.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/cbmemc.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/testload.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/testload.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/nativedisk.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/nativedisk.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/all_video.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/all_video.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/zstd.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/zstd.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/cpio_be.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/cpio_be.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/search_fs_file.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/search_fs_file.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/wrmsr.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/wrmsr.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/date.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/date.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/gcry_sha256.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/gcry_sha256.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/minix_be.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/minix_be.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/help.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/help.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/uhci.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/uhci.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/gzio.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/gzio.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/fat.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/fat.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/setjmp.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/setjmp.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/cryptodisk.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/cryptodisk.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/cbtable.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/cbtable.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/ntfscomp.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/ntfscomp.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/play.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/play.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/elf.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/elf.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/gfxmenu.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/gfxmenu.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/gcry_rijndael.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/gcry_rijndael.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/loadenv.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/loadenv.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/pci.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/pci.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/usbtest.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/usbtest.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/gcry_arcfour.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/gcry_arcfour.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/exfat.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/exfat.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/tr.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/tr.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/echo.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/echo.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/lzopio.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/lzopio.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/ctz_test.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/ctz_test.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/hashsum.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/hashsum.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/lvm.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/lvm.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/gcry_rfc2268.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/gcry_rfc2268.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/zfsinfo.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/zfsinfo.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/xnu_uuid_test.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/xnu_uuid_test.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/ext2.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/ext2.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/part_msdos.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/part_msdos.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/gcry_md4.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/gcry_md4.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/mpi.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/mpi.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/cs5536.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/cs5536.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/part_dvh.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/part_dvh.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/gfxterm_background.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/gfxterm_background.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/legacy_password_test.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/legacy_password_test.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/http.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/http.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/part_amiga.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/part_amiga.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/drivemap.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/drivemap.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/freedos.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/freedos.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/pbkdf2.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/pbkdf2.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/minix.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/minix.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/jfs.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/jfs.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/ls.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/ls.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/random.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/random.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/truecrypt.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/truecrypt.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/mul_test.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/mul_test.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/cmp_test.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/cmp_test.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/zfs.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/zfs.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/luks2.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/luks2.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/adler32.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/adler32.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/aout.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/aout.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/msdospart.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/msdospart.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/part_dfly.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/part_dfly.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/plainmount.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/plainmount.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/cmp.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/cmp.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/net.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/net.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/minix3.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/minix3.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/gcry_idea.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/gcry_idea.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/keylayouts.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/keylayouts.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/key_protector.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/key_protector.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/legacycfg.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/legacycfg.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/video_cirrus.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/video_cirrus.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/scsi.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/scsi.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/file.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/file.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/regexp.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/regexp.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/usbms.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/usbms.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/ehci.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/ehci.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/crc64.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/crc64.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/newc.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/newc.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/hexdump.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/hexdump.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/afs.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/afs.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/gcry_rsa.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/gcry_rsa.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/extcmd.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/extcmd.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/cpuid.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/cpuid.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/terminfo.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/terminfo.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/raid6rec.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/raid6rec.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/part_sunpc.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/part_sunpc.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/pbkdf2_test.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/pbkdf2_test.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/morse.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/morse.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/geli.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/geli.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/multiboot.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/multiboot.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/trig.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/trig.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/halt.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/halt.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/keystatus.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/keystatus.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/hdparm.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/hdparm.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/linux.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/linux.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/mdraid09_be.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/mdraid09_be.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/exfctest.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/exfctest.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/archelp.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/archelp.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/spkmodem.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/spkmodem.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/at_keyboard.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/at_keyboard.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/gcry_tiger.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/gcry_tiger.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/configfile.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/configfile.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/xzio.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/xzio.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/crypto.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/crypto.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/bufio.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/bufio.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/ntfs.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/ntfs.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/pxechain.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/pxechain.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/smbios.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/smbios.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/usbserial_ftdi.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/usbserial_ftdi.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/bitmap.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/bitmap.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/lsacpi.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/lsacpi.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/acpi.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/acpi.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/parttool.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/parttool.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/cbfs.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/cbfs.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/functional_test.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/functional_test.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/test.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/test.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/f2fs.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/f2fs.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/odc.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/odc.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/xnu.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/xnu.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/gfxterm.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/gfxterm.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/romfs.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/romfs.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/boot.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/boot.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/gcry_twofish.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/gcry_twofish.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/ldm.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/ldm.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/pcidump.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/pcidump.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/rdmsr.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/rdmsr.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/multiboot2.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/multiboot2.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/pata.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/pata.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/datehook.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/datehook.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/hfs.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/hfs.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/mdraid09.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/mdraid09.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/usb_keyboard.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/usb_keyboard.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/div_test.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/div_test.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/gptsync.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/gptsync.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/gettext.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/gettext.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/setpci.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/setpci.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/udf.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/udf.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/password.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/password.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/cmdline_cat_test.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/cmdline_cat_test.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/part_sun.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/part_sun.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/loopback.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/loopback.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/gcry_rmd160.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/gcry_rmd160.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/ohci.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/ohci.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/true.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/true.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/videotest_checksum.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/videotest_checksum.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/dm_nv.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/dm_nv.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/sendkey.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/sendkey.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/sfs.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/sfs.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/gcry_dsa.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/gcry_dsa.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/cmosdump.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/cmosdump.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/tftp.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/tftp.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/search_label.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/search_label.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/ntldr.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/ntldr.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/usbserial_usbdebug.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/usbserial_usbdebug.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/backtrace.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/backtrace.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/cat.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/cat.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/afsplitter.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/afsplitter.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/part_plan.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/part_plan.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/gcry_md5.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/gcry_md5.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/raid5rec.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/raid5rec.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/hfspluscomp.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/hfspluscomp.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/gcry_sha1.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/gcry_sha1.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/part_acorn.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/part_acorn.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/part_gpt.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/part_gpt.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/shift_test.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/shift_test.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/cbtime.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/cbtime.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/gcry_camellia.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/gcry_camellia.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/font.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/font.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/linux16.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/linux16.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/memdisk.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/memdisk.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/ufs2.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/ufs2.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/gcry_seed.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/gcry_seed.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/iorw.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/iorw.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/time.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/time.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/bitmap_scale.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/bitmap_scale.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/affs.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/affs.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/video_fb.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/video_fb.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/videoinfo.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/videoinfo.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/strtoull_test.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/strtoull_test.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/password_pbkdf2.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/password_pbkdf2.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/bswap_test.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/bswap_test.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/gdb.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/gdb.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/video_colors.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/video_colors.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/lsmmap.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/lsmmap.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/terminal.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/terminal.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/zfscrypt.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/zfscrypt.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/eval.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/eval.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/part_apple.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/part_apple.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/bsd.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/bsd.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/vga.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/vga.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/minix3_be.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/minix3_be.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/progress.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/progress.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/gcry_des.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/gcry_des.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/mmap.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/mmap.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/tar.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/tar.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/signature_test.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/signature_test.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/offsetio.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/offsetio.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/search_fs_uuid.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/search_fs_uuid.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/efiemu.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/efiemu.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/cbls.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/cbls.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/pgp.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/pgp.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/serial.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/serial.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/vga_text.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/vga_text.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/gcry_serpent.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/gcry_serpent.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/pxe.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/pxe.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/mda_text.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/mda_text.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/cmostest.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/cmostest.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/vbe.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/vbe.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/diskfilter.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/diskfilter.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/squash4.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/squash4.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/setjmp_test.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/setjmp_test.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/macbless.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/macbless.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/macho.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/macho.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/syslinuxcfg.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/syslinuxcfg.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/fshelp.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/fshelp.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/normal.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/normal.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/png.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/png.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/gcry_blowfish.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/gcry_blowfish.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/chain.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/chain.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/priority_queue.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/priority_queue.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/iso9660.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/iso9660.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/gcry_whirlpool.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/gcry_whirlpool.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/reiserfs.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/reiserfs.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/json.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/json.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/tga.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/tga.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/gcry_crc.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/gcry_crc.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/minix2.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/minix2.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/disk.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/disk.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/search.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/search.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/procfs.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/procfs.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/cpio.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/cpio.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/gcry_cast5.mod' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/gcry_cast5.mod'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/efiemu32.o' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/efiemu32.o'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/efiemu64.o' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/efiemu64.o'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/moddep.lst' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/moddep.lst'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/command.lst' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/command.lst'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/fs.lst' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/fs.lst'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/partmap.lst' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/partmap.lst'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/parttool.lst' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/parttool.lst'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/video.lst' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/video.lst'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/crypto.lst' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/crypto.lst'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/terminal.lst' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/terminal.lst'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/modinfo.sh' -> `/tmp/grub.fpC45U/boot/grub/i386-pc/modinfo.sh'.
+grub-mkrescue: info: copying `/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/share/grub/unicode.pf2' -> `/tmp/grub.fpC45U/boot/grub/fonts/unicode.pf2'.
+grub-mkrescue: info: enabling BIOS support ....
+grub-mkrescue: info: grub-mkimage --directory '/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc' --prefix '/boot/grub' --output '/tmp/grub.fpC45U/boot/grub/i386-pc/eltorito.img' --format 'i386-pc-eltorito' --compression 'auto' --config '/tmp/grub.9alTVI' 'biosdisk' 'iso9660'
+.
+grub-mkrescue: info: the size of config file is 0xc0.
+grub-mkrescue: info: the total module size is 0x4298.
+grub-mkrescue: info: reading /nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/kernel.img.
+grub-mkrescue: info: locating the section .text at 0x0.
+grub-mkrescue: info: locating the section .rodata at 0x662c.
+grub-mkrescue: info: locating the section .data at 0x7b20.
+grub-mkrescue: info: locating the section .module_license at 0x8414.
+grub-mkrescue: info: locating the section .bss at 0x8440.
+grub-mkrescue: info: reading /nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/biosdisk.mod.
+grub-mkrescue: info: reading /nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/fshelp.mod.
+grub-mkrescue: info: reading /nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/iso9660.mod.
+grub-mkrescue: info: reading /tmp/grub.9alTVI.
+grub-mkrescue: info: kernel_img=0x3d768dd0, kernel_size=0x8423.
+grub-mkrescue: info: the core size is 0x676b.
+grub-mkrescue: info: reading /nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/lzma_decompress.img.
+grub-mkrescue: info: reading /nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/cdboot.img.
+grub-mkrescue: info: writing 0x800 bytes.
+grub-mkrescue: info: reading /nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/diskboot.img.
+grub-mkrescue: info: writing 0x200 bytes.
+grub-mkrescue: info: writing 0x728b bytes.
+grub-mkrescue: info: executing xorriso -as mkisofs -graft-points --modification-date=2025070215400200 -b boot/grub/i386-pc/eltorito.img -no-emul-boot -boot-load-size 4 -boot-info-table --grub2-boot-info --grub2-mbr /nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/boot_hybrid.img --protective-msdos-label -o build/anonymOS.iso -r /tmp/grub.fpC45U --sort-weight 0 / --sort-weight 1 /boot build/isofiles.
+xorriso 1.5.6 : RockRidge filesystem manipulator, libburnia project.
+
+Drive current: -outdev 'stdio:build/anonymOS.iso'
+Media current: stdio file, overwriteable
+Media status : is blank
+Media summary: 0 sessions, 0 data blocks, 0 data,  756g free
+Added to ISO image: directory '/'='/tmp/grub.fpC45U'
+xorriso : UPDATE :     336 files added in 1 seconds
+Added to ISO image: directory '/'='/home/ubuntu/Code/internetcomputer/build/isofiles'
+xorriso : UPDATE :    8609 files added in 1 seconds
+xorriso : NOTE : Copying to System Area: 512 bytes from file '/nix/store/9318hbk3akgqjkx5yn3b8q8rfdycqwdj-grub-2.12/lib/grub/i386-pc/boot_hybrid.img'
+xorriso : UPDATE :  25.28% done
+ISO image produced: 70087 sectors
+Written to medium : 70087 sectors at LBA 0
+Writing to 'stdio:build/anonymOS.iso' completed successfully.
+
+echo "ISO created: build/anonymOS.iso (using grub.cfg in build/isofiles/boot/grub/grub.cfg)"
+ISO created: build/anonymOS.iso (using grub.cfg in build/isofiles/boot/grub/grub.cfg)
+qemu-system-x86_64 -cdrom build/anonymOS.iso -nographic -m 512M -display curses -vga std \
+-d int,guest_errors,cpu_reset -D qemu.log -debugcon file:qemu.log -serial file:qemu.log \
+-M smm=off -no-reboot -S -s
+QEMU 9.2.3 monitor - type 'help' for more information
+We need a terminal output
+make: *** [Makefile:265: run-log-int] Error 1

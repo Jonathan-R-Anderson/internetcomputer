@@ -629,6 +629,26 @@ __gshared immutable(char*)[] defaultFiles = [
     "/cfg/system/packages.json",
 ];
 
+private void installEmbeddedShell()
+{
+    auto shNode = fs_lookup("/bin/sh");
+    if(shNode is null)
+    {
+        shNode = createFile("/bin/sh");
+    }
+    // If node still null, bail
+    if(shNode is null) return;
+    // If already has data assume OK
+    if(shNode.data !is null && shNode.size > 0) return;
+    size_t sz = embedded_shell_binary.length;
+    auto buf = cast(ubyte*)malloc(sz);
+    if(buf is null) return;
+    memcpy(buf, embedded_shell_binary.ptr, sz);
+    shNode.data = buf;
+    shNode.size = sz;
+    shNode.capacity = sz;
+}
+
 private void createDefaultTree()
 {
     fsRoot = createNode("/", NodeType.Directory);
@@ -636,6 +656,7 @@ private void createDefaultTree()
         mkdirInternal(dir);
     foreach(f; defaultFiles)
         createFile(f);
+    installEmbeddedShell();
 }
 
 private void loadFilesystem()
@@ -666,6 +687,8 @@ private void loadFilesystem()
             createFile(p);
     }
     fclose(f);
+    // Ensure embedded shell is present each boot
+    installEmbeddedShell();
 }
 
 extern(C) void save_filesystem()

@@ -40,7 +40,7 @@ extern(C) void init_syscall_interface()
 }
 extern(C) void launch_init_process()
 {
-    import kernel.shell : init_setup;
+    import kernel.kshell : kernel_shell_main;
 
-    init_setup();
+    kernel_shell_main();
 }

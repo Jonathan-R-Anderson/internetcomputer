@@ -94,6 +94,30 @@ extern(C) int memcmp(const void* lhs, const void* rhs, size_t num)
     return 0;
 }
 
+// Move memory regions (handles overlapping regions)
+extern(C) void* memmove(void* dest, const void* src, size_t num) {
+    auto d = cast(ubyte*)dest;
+    auto s = cast(const ubyte*)src;
+    
+    if (d == s || num == 0) {
+        return dest;
+    }
+    
+    if (d < s) {
+        // Copy forward
+        for (size_t i = 0; i < num; i++) {
+            d[i] = s[i];
+        }
+    } else {
+        // Copy backward
+        for (size_t i = num; i > 0; i--) {
+            d[i-1] = s[i-1];
+        }
+    }
+    
+    return dest;
+}
+
 // Compute length of a C string
 extern(C) size_t strlen(const(char)* str) {
     size_t len = 0;

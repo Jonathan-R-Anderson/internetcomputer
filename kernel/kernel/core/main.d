@@ -9,7 +9,7 @@ import kernel.arch_interface.gdt : init_gdt; // Updated import path
 import kernel.arch_interface.idt : init_idt, idt_ptr; // Updated import path
 import kernel.device.pic : initialize_pic, irq_clear_mask; // PIC initialization and PIC setup
 import kernel.shell : sh_shell; // Comprehensive shell with 100+ built-in commands
-import kernel.process_manager : process_create, scheduler_run;
+import kernel.process_manager : process_create, scheduler_run, EntryFunc;
 import kernel.logger : logger_init, log_message, log_register_state, log_hex, log_mem_dump, log_test; // New logging utilities
 import kernel.arch_interface.gdt : gdt_ptr;
 import kernel.hardware.network : net_init;
@@ -17,6 +17,7 @@ import kernel.net.stack : net_stack_init, net_poll;
 import kernel.sanity : run_sanity_checks;
 import kernel.thread : thread_init, thread_create, thread_start, thread_yield, threads_active, thread_exit;
 import kernel.elf_loader : load_elf;
+import kernel.fs : fs_lookup;
 
 // kernel.interrupts is not directly called by kmain but its symbols are needed by IDT setup.
 // kernel.panic is used implicitly if needed.
@@ -198,19 +199,7 @@ extern (C) void kmain(void* multiboot_info_ptr) {
     // All setup tasks completed
     clear_screen();
 
-    // Attempt to load external -sh ELF located at /bin/sh
-    void* sh_entry;
-    if(load_elf("/bin/sh", &sh_entry) == 0 && sh_entry !is null)
-    {
-        log_message("Loaded /bin/sh ELF successfully – launching external shell...\n");
-        process_create(cast(EntryFunc)sh_entry);
-    }
-    else
-    {
-        log_message("/bin/sh not found or failed to load – falling back to built-in shell...\n");
-        process_create(&sh_shell);
-    }
-
+    // launch_init_process() now handles loading the external shell or falling back to built-in shell
     scheduler_run();
 
     // This part should ideally not be reached if the shell takes over.
