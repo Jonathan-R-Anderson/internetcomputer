@@ -4,6 +4,8 @@ import kernel.terminal : terminal_writestring, terminal_writestring_color, termi
 import kernel.keyboard : keyboard_getchar;
 import kernel.fs : fs_chdir, fs_getcwd, fs_lookup, fs_pread_file, fs_open_file, fs_close_file, Node, NodeType, fsCurrentDir;
 import kernel.types : VGAColor;
+import kernel.elf_loader : load_elf;
+import kernel.logger : log_message;
 
 // ============================================================================
 // COMPREHENSIVE SHELL - AVAILABLE IMMEDIATELY AT BOOT
@@ -34,6 +36,15 @@ __gshared size_t job_count = 0;
 __gshared char[64][32] env_names;
 __gshared char[256][32] env_values;
 __gshared size_t env_count = 0;
+
+// Embedded shell binary data (first few bytes for testing)
+__gshared immutable ubyte[] embeddedShellBinary = [
+    0x7f, 0x45, 0x4c, 0x46, 0x02, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x02, 0x00, 0x3e, 0x00, 0x01, 0x00, 0x00, 0x00,
+    0x20, 0x10, 0x40, 0x00, 0x00, 0x00, 0x00, 0x00, 0x40, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x68, 0x35, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    // ... truncated for now, we'll add the full binary later
+];
 
 void add_to_history(const char[] cmd) {
     if (cmd.length == 0) return;
@@ -928,13 +939,78 @@ private void setup_first_user()
     terminal_writestring("Default user 'user' created and logged in.\r\n");
 }
 
-/// Main shell entry point - boots directly into comprehensive shell
+/// Main shell entry point - tries external shell first, then falls back to built-in
 extern(C) void shMain()
 {
     import kernel.device.vga : clear_screen;
+    import kernel.elf_loader : load_elf;
     
     clear_screen();
     
+    // First, try to load the external D shell from /bin/sh
+    terminal_writestring("Attempting to load external shell from /bin/sh...\r\n");
+    
+    auto sh_node = fs_lookup("/bin/sh");
+    
+    if (sh_node is null) {
+        terminal_writestring("DEBUG: fs_lookup returned null for /bin/sh\r\n");
+        log_message("DEBUG: fs_lookup returned null for /bin/sh\n");
+    } else {
+        terminal_writestring("DEBUG: Found node for /bin/sh\r\n");
+        log_message("DEBUG: Found node for /bin/sh\n");
+        
+        if (sh_node.kind != NodeType.File) {
+            terminal_writestring("DEBUG: /bin/sh is not a file\r\n");
+            log_message("DEBUG: /bin/sh is not a file\n");
+        } else {
+            terminal_writestring("DEBUG: /bin/sh is a file\r\n");
+            log_message("DEBUG: /bin/sh is a file\n");
+            
+            // Show file size
+            terminal_writestring("DEBUG: File size: ");
+            // Simple size display
+            if (sh_node.size == 0) {
+                terminal_writestring("0 bytes (empty file)");
+            } else if (sh_node.size < 1000) {
+                terminal_writestring("small file");
+            } else {
+                terminal_writestring("has content");
+            }
+            terminal_writestring("\r\n");
+        }
+    }
+    
+    if (sh_node !is null && sh_node.kind == NodeType.File && sh_node.size > 0) {
+        terminal_writestring("Found /bin/sh with content, attempting to load ELF...\r\n");
+        
+        void* entry;
+        int result = load_elf("/bin/sh", &entry);
+        
+        if (result == 0 && entry !is null) {
+            terminal_writestring("ELF loaded successfully, launching external D shell...\r\n");
+            
+            // Cast entry point to function and call it
+            alias MainFunc = extern(C) int function();
+            auto main_func = cast(MainFunc)entry;
+            
+            int exit_code = main_func();
+            terminal_writestring("External shell exited with code: ");
+            // Simple number to string conversion
+            if (exit_code == 0) {
+                terminal_writestring("0");
+            } else {
+                terminal_writestring("non-zero");
+            }
+            terminal_writestring("\r\n");
+        } else {
+            terminal_writestring("Failed to load ELF from /bin/sh, falling back to built-in shell.\r\n");
+        }
+    } else {
+        terminal_writestring("External shell not found at /bin/sh, using built-in shell.\r\n");
+    }
+    
+    // Fall back to built-in comprehensive shell
+    terminal_writestring("\r\n");
     terminal_writestring_color("=== anonymOS Comprehensive Shell ===\r\n", VGAColor.CYAN, VGAColor.BLACK);
     terminal_writestring_color("Like TempleOS - All commands built-in, no installation required!\r\n", VGAColor.YELLOW, VGAColor.BLACK);
     terminal_writestring("\r\n");

@@ -621,6 +621,7 @@ __gshared immutable(char*)[] defaultDirs = [
 
 /// Default set of configuration files created on first boot.
 __gshared immutable(char*)[] defaultFiles = [
+    "/bin/sh",
     "/cfg/hostname",
     "/cfg/users/alice.json",
     "/cfg/users/bob.json",
@@ -628,29 +629,107 @@ __gshared immutable(char*)[] defaultFiles = [
     "/cfg/system/packages.json",
 ];
 
+// Embedded shell binary data (simplified ELF for testing)
+// This is just the first few bytes - in a real implementation we'd include the full binary
+__gshared immutable ubyte[] embedded_shell_binary = [
+    0x7f, 0x45, 0x4c, 0x46, 0x02, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x02, 0x00, 0x3e, 0x00, 0x01, 0x00, 0x00, 0x00,
+    0x40, 0x10, 0x40, 0x00, 0x00, 0x00, 0x00, 0x00, 0x40, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x68, 0x35, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    // Minimal program that returns 0 (simplified for testing)
+    0xb8, 0x00, 0x00, 0x00, 0x00,  // mov eax, 0
+    0xc3,                           // ret
+];
+
 private void createDefaultTree()
 {
     fsRoot = createNode("/", NodeType.Directory);
     foreach(dir; defaultDirs)
         mkdirInternal(dir);
-    foreach(f; defaultFiles)
-        createFile(f);
+    
+    log_message("DEBUG: About to create default files\n");
+    
+    // Create files, but handle /bin/sh specially
+    foreach(f; defaultFiles) {
+        log_message("DEBUG: Creating file: ");
+        log_message(f);
+        log_message("\n");
+        
+        auto node = createFile(f);
+        
+        // Special case for /bin/sh - populate with embedded binary content
+        // Use a safer string comparison
+        bool is_bin_sh = false;
+        if (node !is null) {
+            // Check if this is "/bin/sh"
+            size_t f_len = strlen(f);
+            if (f_len == 7) {
+                // Compare with "/bin/sh"
+                is_bin_sh = (f[0] == '/' && f[1] == 'b' && f[2] == 'i' && f[3] == 'n' && 
+                            f[4] == '/' && f[5] == 's' && f[6] == 'h');
+            }
+        }
+        
+        if (is_bin_sh) {
+            log_message("DEBUG: Detected /bin/sh, populating with embedded binary\n");
+            node.data = cast(ubyte*)malloc(embedded_shell_binary.length);
+            if (node.data !is null) {
+                memcpy(node.data, embedded_shell_binary.ptr, embedded_shell_binary.length);
+                node.size = embedded_shell_binary.length;
+                node.capacity = embedded_shell_binary.length;
+                log_message("DEBUG: Successfully populated /bin/sh with ");
+                // Log the size
+                char[32] size_str;
+                // Simple integer to string conversion
+                size_t size_val = embedded_shell_binary.length;
+                size_t idx = 0;
+                if (size_val == 0) {
+                    size_str[idx++] = '0';
+                } else {
+                    // Convert to string backwards
+                    size_t temp_idx = 0;
+                    char[32] temp_str;
+                    while (size_val > 0) {
+                        temp_str[temp_idx++] = cast(char)('0' + (size_val % 10));
+                        size_val /= 10;
+                    }
+                    // Reverse the string
+                    for (size_t i = 0; i < temp_idx; i++) {
+                        size_str[idx++] = temp_str[temp_idx - 1 - i];
+                    }
+                }
+                size_str[idx] = '\0';
+                log_message(size_str.ptr);
+                log_message(" bytes\n");
+            } else {
+                log_message("DEBUG: Failed to allocate memory for /bin/sh\n");
+            }
+        } else {
+            log_message("DEBUG: Regular file created\n");
+        }
+    }
+    
+    log_message("DEBUG: Finished creating default files\n");
 }
 
 private void loadFilesystem()
 {
+    log_message("DEBUG: loadFilesystem() called\n");
     auto f = fopen("fs.img", "rb");
     if(f is null)
     {
+        log_message("DEBUG: fs.img not found, calling createDefaultTree()\n");
         createDefaultTree();
         auto outFile = fopen("fs.img", "wb");
         if(outFile !is null)
         {
             saveNode(outFile, fsRoot, null, 0);
             fclose(outFile);
+            log_message("DEBUG: Saved filesystem to fs.img\n");
         }
         return;
     }
+    log_message("DEBUG: fs.img found, loading from file\n");
     fsRoot = createNode("/", NodeType.Directory);
     char[256] line;
     while(fgets(line.ptr, line.length, f) !is null)
@@ -665,6 +744,7 @@ private void loadFilesystem()
             createFile(p);
     }
     fclose(f);
+    log_message("DEBUG: Finished loading filesystem from fs.img\n");
 }
 
 extern(C) void save_filesystem()
@@ -675,9 +755,34 @@ extern(C) void save_filesystem()
     fclose(f);
 }
 
+// Add helper to ensure /bin/sh exists and has binary content
+private void ensure_shell_present()
+{
+    auto node = fs_lookup("/bin/sh");
+    if(node is null)
+    {
+        // Create and populate
+        node = createFile("/bin/sh");
+    }
+    if(node !is null && node.kind == NodeType.File && node.size == 0)
+    {
+        log_message("DEBUG: Populating /bin/sh after loadFilesystem()\n");
+        node.data = cast(ubyte*)malloc(embedded_shell_binary.length);
+        if(node.data !is null)
+        {
+            memcpy(node.data, embedded_shell_binary.ptr, embedded_shell_binary.length);
+            node.size = embedded_shell_binary.length;
+            node.capacity = embedded_shell_binary.length;
+        }
+    }
+}
+
 extern(C) void init_filesystem(void* info)
 {
+    log_message("DEBUG: init_filesystem() called\n");
     loadFilesystem();
+    // Ensure embedded shell is present even if loaded from fs.img
+    ensure_shell_present();
     fs_fdtable_init();
     fsCurrentDir = fsRoot;
     log_message("Filesystem initialized\n");

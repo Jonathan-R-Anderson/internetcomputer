@@ -1,7 +1,5 @@
 # Ignore build artifacts
-build/
 *.iso
-bin/
 dist-newstyle/
 qemu.log
 __pycache__/
